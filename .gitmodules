@@ -1,0 +1,3 @@
+[submodule "Dependencies/cpptqdm"]
+	path = Dependencies/cpptqdm
+	url = https://github.com/aminnj/cpptqdm

@@ -1,0 +1,121 @@
+{
+    "inchipadpro11-horizontal": {
+        "offset_x": 459,
+        "offset_y": 459,
+        "png_template_name": "11-inch iPad Pro - horizontal.png",
+        "res_height": 3080,
+        "res_width": 4000
+    },
+    "inchipadpro11-vertical": {
+        "offset_x": 750,
+        "offset_y": 211,
+        "png_template_name": "11-inch iPad Pro - vertical.png",
+        "res_height": 4000,
+        "res_width": 4000
+    },
+    "ipadpro129-horizontal": {
+        "offset_x": 307,
+        "offset_y": 731,
+        "png_template_name": "12.9-inch iPad Pro - horizontal.png",
+        "res_height": 4000,
+        "res_width": 4000
+    },
+    "ipadpro129-vertical": {
+        "offset_x": 729,
+        "offset_y": 304,
+        "png_template_name": "12.9-inch iPad Pro - vertical.png",
+        "res_height": 4000,
+        "res_width": 4000
+    },
+    "applewatchseries5-blackband": {
+        "offset_x": 1429,
+        "offset_y": 1305,
+        "png_template_name": "Apple Watch Series 5 - black band.png",
+        "res_height": 4000,
+        "res_width": 4000
+    },
+    "applewatchseries5-whiteband": {
+        "offset_x": 1429,
+        "offset_y": 1305,
+        "png_template_name": "Apple Watch Series 5 - white band.png",
+        "res_height": 4000,
+        "res_width": 4000
+    },
+    "ipad-horizontal": {
+        "offset_x": 385,
+        "offset_y": 788,
+        "png_template_name": "iPad - horizontal.png",
+        "res_height": 4000,
+        "res_width": 4000
+    },
+    "ipad-vertical": {
+        "offset_x": 788,
+        "offset_y": 384,
+        "png_template_name": "iPad - vertical.png",
+        "res_height": 4000,
+        "res_width": 4000
+    },
+    "iphone11-vertical": {
+        "offset_x": 416,
+        "offset_y": 428,
+        "png_template_name": "iPhone 11 - vertical.png",
+        "res_height": 4000,
+        "res_width": 2286
+    },
+    "iphone11pro": {
+        "offset_x": 395,
+        "offset_y": 375,
+        "png_template_name": "iPhone 11 Pro.png",
+        "res_height": 4000,
+        "res_width": 2292
+    },
+    "iphone11promax": {
+        "offset_x": 317,
+        "offset_y": 207,
+        "png_template_name": "iPhone 11 Pro Max.png",
+        "res_height": 4000,
+        "res_width": 2292
+    },
+    "iphonese-black": {
+        "offset_x": 484,
+        "offset_y": 827,
+        "png_template_name": "iPhone SE - Black.png",
+        "res_height": 4000,
+        "res_width": 2286
+    },
+    "iphonese-white": {
+        "offset_x": 484,
+        "offset_y": 827,
+        "png_template_name": "iPhone SE - White.png",
+        "res_height": 4000,
+        "res_width": 2286
+    },
+    "ipodtouch-landscape-blue": {
+        "offset_x": 242,
+        "offset_y": 70,
+        "png_template_name": "iPodTouch-Landscape-Blue.png",
+        "res_height": 780,
+        "res_width": 1620
+    },
+    "ipodtouch-landscape-silver": {
+        "offset_x": 242,
+        "offset_y": 70,
+        "png_template_name": "iPodTouch-Landscape-Silver.png",
+        "res_height": 780,
+        "res_width": 1620
+    },
+    "ipodtouch-portrait-blue": {
+        "offset_x": 70,
+        "offset_y": 242,
+        "png_template_name": "iPodTouch-Portrait-Blue.png",
+        "res_height": 1620,
+        "res_width": 780
+    },
+    "ipodtouch-portrait-silver": {
+        "offset_x": 70,
+        "offset_y": 242,
+        "png_template_name": "iPodTouch-Portrait-Silver.png",
+        "res_height": 1620,
+        "res_width": 780
+    }
+}
