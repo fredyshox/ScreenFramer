@@ -15,6 +15,18 @@ Task::Task(
     const OverlayConfig &overlayConfig,
     const OutputConfig &outputConfig
 ) {
+    if (background.empty() || mask.empty() || mask.channels() != 1) {
+        throw std::invalid_argument("Background/Mask are invalid (are empty or have invalid channel count");
+    }
+
+    if (!overlayConfig.isValid()) {
+        throw std::invalid_argument("OverlayConfig is not valid");
+    }
+
+    if (!outputConfig.isValid()) {
+        throw std::invalid_argument("OutputConfig is not valid!");
+    }
+
     double fx = (double) outputConfig.width / (double) background.cols;
     double fy = (double) outputConfig.height / (double) background.rows;
     int translatedOriginX = (int) round(overlayConfig.originX * fx);
@@ -100,7 +112,7 @@ void Task::feedFrame(cv::Mat &rawFrame) {
     _outputWriter.write(_outputFrame);
 }
 
-bool Task::isActive() {
+bool Task::isActive() const {
     return _outputWriter.isOpened();
 }
 

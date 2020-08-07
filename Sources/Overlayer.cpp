@@ -40,7 +40,7 @@ OverlayConfig::OverlayConfig(
    originY(originY), templateWidth(templateWidth),
    templateHeight(templateHeight) {}
 
-bool OverlayConfig::isValid() {
+bool OverlayConfig::isValid() const {
     return std::filesystem::exists(imagePath) && originX >= 0 && originY >= 0;
 }
 
@@ -52,13 +52,25 @@ OutputConfig::OutputConfig(
     RGBColor backgroundColor
 ): path(path), fps(fps), width(width), height(height), backgroundColor(backgroundColor) {}
 
+bool OutputConfig::isValid() const {
+    return width > 0 && height > 0 && fps > 0.0;
+}
+
 Overlayer::Overlayer(const OverlayConfig &config) : _config(config) {
     cv::Mat bgraImage = cv::imread(config.imagePath, cv::IMREAD_UNCHANGED);
+    if (bgraImage.empty()) {
+        throw std::invalid_argument("File is not image: " + config.imagePath);
+    }
+    
+    if (bgraImage.channels() != 4) {
+        throw std::invalid_argument("Image is not BGRA: " + config.imagePath);
+    }
+    
     cv::extractChannel(bgraImage, _mask, 3);
     cv::cvtColor(bgraImage, _backgroundImage, cv::COLOR_BGRA2BGR);
 }
 
-OverlayConfig Overlayer::config() {
+OverlayConfig Overlayer::config() const {
     return _config;
 }
 

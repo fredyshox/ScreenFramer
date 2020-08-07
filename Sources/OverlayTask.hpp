@@ -35,7 +35,7 @@ public:
 
     void initialize();
     virtual void feedFrame(cv::Mat &rawFrame);
-    bool isActive();
+    bool isActive() const;
     void finalize();
 };
 

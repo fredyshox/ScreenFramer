@@ -119,6 +119,10 @@ int main(int argc, char** argv) {
     configFile >> configJson;
     configFile.close();
 
+    if (!configJson.contains(templateKey)) {
+        std::cerr << "Error: invalid template " << templateKey << std::endl;
+        return 3;
+    }
     auto config = configJson[templateKey].get<avo::OverlayConfig>();
     assert(config.isValid());
     DEBUG_PRINTLN("*** Config: path - " << config.imagePath << ", ox - " << config.originX << ", oy - " << config.originY);

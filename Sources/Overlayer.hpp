@@ -38,7 +38,7 @@ struct OverlayConfig {
         int templateHeight
     );
     ~OverlayConfig() = default;
-    bool isValid();
+    bool isValid() const;
 };
 
 struct OutputConfig {
@@ -50,6 +50,7 @@ struct OutputConfig {
 
     OutputConfig(std::string path, double fps, int width, int height, RGBColor backgroundColor = {});
     ~OutputConfig() = default;
+    bool isValid() const;
 };
 
 class Overlayer {
@@ -60,7 +61,7 @@ protected:
     cv::Mat _mask;
 public:
     explicit Overlayer(const OverlayConfig &config);
-    OverlayConfig config();
+    OverlayConfig config() const;
     Task overlayTask(const OutputConfig& outputConfig);
 };
 

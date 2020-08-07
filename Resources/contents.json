@@ -1,12 +1,12 @@
 {
-    "inchipadpro11-horizontal": {
+    "ipadpro11-horizontal": {
         "offset_x": 459,
         "offset_y": 459,
         "png_template_name": "11-inch iPad Pro - horizontal.png",
         "res_height": 3080,
         "res_width": 4000
     },
-    "inchipadpro11-vertical": {
+    "ipadpro11-vertical": {
         "offset_x": 750,
         "offset_y": 211,
         "png_template_name": "11-inch iPad Pro - vertical.png",
