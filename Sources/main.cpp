@@ -15,7 +15,7 @@
 #include <nlohmann/json.hpp>
 #include "Overlayer.hpp"
 #include "Utility.hpp"
-#include "tqdm.h"
+#include "tqdm.hpp"
 
 using nlohmann::json;
 namespace fs = std::filesystem;
