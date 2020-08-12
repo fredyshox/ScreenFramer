@@ -100,13 +100,7 @@ avframer --template applewatchseries5-blackband --height 480 --color '#03BD5B' I
 
 If you're using Homebrew, just type `brew install nhlomann-json cxxopts opencv`.
 
-Project is also using [cpptqdm](https://github.com/aminnj/cpptqdm), which is added as submodule. Make sure to clone repository with `--recurse-submodules` option or pull submodules:
-
-```
-git clone --recurse-submodules git@github.com:fredyshox/AppVideoFramer.git
-# or if cloned already
-git submodule update --init --recursive
-```
+Project is also using [cpptqdm](https://github.com/aminnj/cpptqdm), which is located in [Dependecies directory](/Dependencies/tqdm/tqdm.hpp).
 
 ### Building from source
 
