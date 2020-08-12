@@ -1,11 +1,10 @@
-
-
 <div align="center">
   <img src="./Images/AppIcon.png" width="200" height="200">
   <h1>AppVideoFramer</h1>
   <h5>Frame recordings from your apps using device mockups.</h5>
   <br>
 </div>
+
 
 This is command-line tool which helps to put screen recordings from your apps or prototypes in device frames from iPhone, iPad and Apple Watch.
 
@@ -26,8 +25,8 @@ I often record my app prototypes running in iOS simulator or on device to share 
 If you're using macOS, you can install via [Homebrew](https://brew.sh):
 
 ```
-brew tap fredyshox/avo
-brew install avo
+brew tap fredyshox/tools
+brew install avframer
 ```
 
 For platforms other than mac, you can build from source.
@@ -36,7 +35,7 @@ For platforms other than mac, you can build from source.
 
 To overlay screen recording at `INPUTPATH`, and save output at `OUTPUTPATH` run:
 
-`avo [OPTIONS...] INPUTPATH OUTPUTPATH`
+`avframer [OPTIONS...] INPUTPATH OUTPUTPATH`
 
 Available options:
 
@@ -76,13 +75,13 @@ Available options:
 Create video with iPhone 11 Pro frame, over white background, with width equal to 960 (while maintaining proper aspect ratio).
 
 ```
-avo --template iphone11pro --width 960 --color '#FFFFFF' INPUTPATH OUTPUTPATH
+avframer --template iphone11pro --width 960 --color '#FFFFFF' INPUTPATH OUTPUTPATH
 ```
 
 Create video with Apple Watch Series 5 frame, over green background, with height equal to 480.
 
 ```
-avo --template applewatchseries5-blackband --height 480 --color '#03BD5B' INPUTPATH OUTPUTPATH
+avframer --template applewatchseries5-blackband --height 480 --color '#03BD5B' INPUTPATH OUTPUTPATH
 ```
 
 ## Build
@@ -104,7 +103,7 @@ If you're using Homebrew, just type `brew install nhlomann-json cxxopts opencv`.
 Project is also using [cpptqdm](https://github.com/aminnj/cpptqdm), which is added as submodule. Make sure to clone repository with `--recurse-submodules` option or pull submodules:
 
 ```
-git clone --recurse-submodules git@github.com:fredyshox/AVO.git
+git clone --recurse-submodules git@github.com:fredyshox/AppVideoFramer.git
 # or if cloned already
 git submodule update --init --recursive
 ```
