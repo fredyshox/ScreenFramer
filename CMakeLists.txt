@@ -25,6 +25,7 @@ if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
 else()
     add_compile_definitions(RELEASE)
     add_compile_definitions(RESOURCES_PATH="${AVF_TEMPLATES_INSTALL_DIR}")
+    message(STATUS "Resource dir: ${AVF_TEMPLATES_INSTALL_DIR}")
 endif()
 add_compile_definitions(VERSION_NUMBER="${PROJECT_VERSION}")
 
@@ -42,4 +43,4 @@ set_target_properties(AppVideoFramer PROPERTIES OUTPUT_NAME ${AVF_BINARY_NAME})
 
 # installation
 install(TARGETS AppVideoFramer DESTINATION ${AVF_BINARY_INSTALL_DIR})
-install(DIRECTORY Resources CONFIGURATIONS Release DESTINATION ${AVF_TEMPLATES_INSTALL_DIR})
+install(DIRECTORY Resources/ CONFIGURATIONS Release DESTINATION ${AVF_TEMPLATES_INSTALL_DIR} PATTERN "Resources/*")
