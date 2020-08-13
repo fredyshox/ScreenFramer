@@ -6,7 +6,7 @@
         "res_height": 3080,
         "res_width": 4000
     },
-    "ipadpro11-vertical": {
+    "ipadpro11": {
         "offset_x": 750,
         "offset_y": 211,
         "png_template_name": "11-inch iPad Pro - vertical.png",
@@ -20,7 +20,7 @@
         "res_height": 4000,
         "res_width": 4000
     },
-    "ipadpro129-vertical": {
+    "ipadpro129": {
         "offset_x": 729,
         "offset_y": 304,
         "png_template_name": "12.9-inch iPad Pro - vertical.png",
@@ -48,14 +48,14 @@
         "res_height": 4000,
         "res_width": 4000
     },
-    "ipad-vertical": {
+    "ipad": {
         "offset_x": 788,
         "offset_y": 384,
         "png_template_name": "iPad - vertical.png",
         "res_height": 4000,
         "res_width": 4000
     },
-    "iphone11-vertical": {
+    "iphone11": {
         "offset_x": 416,
         "offset_y": 428,
         "png_template_name": "iPhone 11 - vertical.png",
@@ -104,14 +104,14 @@
         "res_height": 780,
         "res_width": 1620
     },
-    "ipodtouch-portrait-blue": {
+    "ipodtouch-blue": {
         "offset_x": 70,
         "offset_y": 242,
         "png_template_name": "iPodTouch-Portrait-Blue.png",
         "res_height": 1620,
         "res_width": 780
     },
-    "ipodtouch-portrait-silver": {
+    "ipodtouch-silver": {
         "offset_x": 70,
         "offset_y": 242,
         "png_template_name": "iPodTouch-Portrait-Silver.png",

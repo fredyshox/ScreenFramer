@@ -1,6 +1,6 @@
 //
 //  main.cpp
-//  AppleVideoOverlay
+//  AppVideoFramer
 //
 //  Created by Kacper Rączy on 24/07/2020.
 //
@@ -53,7 +53,7 @@ avo::RGBColor parseHex(const std::string &rgbHexStr) {
 }
 
 /**
- * Usage: avo VIDEOPATH OUTPUTPATH
+ * Usage: avframer VIDEOPATH OUTPUTPATH
  *
  * Options:
  * -t,template - Device model template
@@ -68,7 +68,7 @@ int main(int argc, char** argv) {
     int width, height;
 
     // parse command line arguments
-    cxxopts::Options options("AppleVideoOverlay", "Overlay videos from Apple devices");
+    cxxopts::Options options("avframer", "Overlay videos from Apple devices");
     options.add_options()
         ("t,template", "Device model template", cxxopts::value<std::string>()->default_value("iphone11"))
         ("w,width", "Output video width", cxxopts::value<int>()->default_value("0"))
@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
         std::string rgbHexStr = result["color"].as<std::string>();
         backgroundColor = parseHex(rgbHexStr);
     } catch (const std::exception& e) {
-        std::cerr << "Error parsing options: " << e.what() << std::endl;
+        std::cerr << "Error parsing options: " << e.what() << std::endl << std::endl;
         std::cerr << options.help() << std::endl;
         return 1;
     }
@@ -120,7 +120,11 @@ int main(int argc, char** argv) {
     configFile.close();
 
     if (!configJson.contains(templateKey)) {
-        std::cerr << "Error: invalid template " << templateKey << std::endl;
+        std::cerr << "Error: invalid template \"" << templateKey << "\"" << std::endl;
+        std::cerr << "Available keys:" << std::endl;
+        for (auto it = configJson.begin(); it != configJson.end(); ++it) {
+            std::cerr << " - " << it.key() << std::endl;
+        }
         return 3;
     }
     auto config = configJson[templateKey].get<avo::OverlayConfig>();
