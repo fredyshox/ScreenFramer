@@ -30,7 +30,7 @@ If you prefer using graphical user interface, there is native macOS app availabl
 
 [![](https://linkmaker.itunes.apple.com/assets/shared/badges/en-us/macappstore-lrg.svg)](https://apps.apple.com/pl/app/screenframer/id1527621584?l=pl&mt=12)
 
-![](Images/macOS app screenshot.png)
+<img src="Images/macOS app screenshot.png">
 
 ## Install
 
