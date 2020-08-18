@@ -10,7 +10,11 @@ This is command-line tool which helps to put screen recordings from your apps or
 
 ## Why?
 
-I often record my app prototypes running in iOS simulator or on device to share on Github or social media. But these recordings don’t come with device frame overlay, and applying it is just not as easy as it is with still images. It’s also really inconvienient to open Final Cut Pro or iMovie (frankly it’s not even possible to do it there without tricks) just for that. So I’ve created simple command-line tool for that.
+I often record my app prototypes running in iOS simulator or on device to share on Github or social media. But these recordings don’t come with device frame overlay, and applying it is just not as easy as it is with still images. It’s also really inconvienient to open Final Cut Pro or iMovie (frankly it’s not even possible to do it there without tricks) just for that. So I’ve created simple command-line tool for that (and then macOS GUI app too).
+
+<div align="center">
+  <img src="./Images/Showcase.png" width="900">
+</div>
 
 ## Features
 
@@ -19,6 +23,12 @@ I often record my app prototypes running in iOS simulator or on device to share 
 * Ability to control video dimensions
 * Outputs video using H.264 codec
 * Command line interface
+
+## macOS App
+
+If you prefer using graphical user interface, there is native macOS app available for symbolic price.
+
+[![](https://linkmaker.itunes.apple.com/assets/shared/badges/en-us/macappstore-lrg.svg)](https://apps.apple.com/pl/app/screenframer/id1527621584?l=pl&mt=12)
 
 ## Install
 
