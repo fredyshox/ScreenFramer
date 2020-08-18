@@ -1,6 +1,6 @@
 <div align="center">
   <img src="./Images/AppIcon.png" width="200" height="200">
-  <h1>AppVideoFramer</h1>
+  <h1>ScreenFramer</h1>
   <h5>Frame recordings from your apps using device mockups.</h5>
   <br>
 </div>
@@ -26,7 +26,7 @@ If you're using macOS, you can install via [Homebrew](https://brew.sh):
 
 ```
 brew tap fredyshox/tools
-brew install avframer
+brew install screenframer
 ```
 
 For platforms other than mac, you can build from source.
@@ -35,7 +35,7 @@ For platforms other than mac, you can build from source.
 
 To overlay screen recording at `INPUTPATH`, and save output at `OUTPUTPATH` run:
 
-`avframer [OPTIONS...] INPUTPATH OUTPUTPATH`
+`screenframer [OPTIONS...] INPUTPATH OUTPUTPATH`
 
 Available options:
 
@@ -75,13 +75,13 @@ Available options:
 Create video with iPhone 11 Pro frame, over white background, with width equal to 960 (while maintaining proper aspect ratio).
 
 ```
-avframer --template iphone11pro --width 960 --color '#FFFFFF' INPUTPATH OUTPUTPATH
+screenframer --template iphone11pro --width 960 --color '#FFFFFF' INPUTPATH OUTPUTPATH
 ```
 
 Create video with Apple Watch Series 5 frame, over green background, with height equal to 480.
 
 ```
-avframer --template applewatchseries5-blackband --height 480 --color '#03BD5B' INPUTPATH OUTPUTPATH
+screenframer --template applewatchseries5-blackband --height 480 --color '#03BD5B' INPUTPATH OUTPUTPATH
 ```
 
 ## Build

@@ -7,6 +7,12 @@
 #include "Utility.hpp"
 #include <opencv2/imgproc.hpp>
 
+#ifdef MACOS_APP
+#define API_PREFERENCE cv::CAP_AVFOUNDATION
+#else
+#define API_PREFERENCE cv::CAP_ANY
+#endif
+
 namespace avo {
 
 Task::Task(
@@ -64,9 +70,15 @@ Task::Task(
     // invert mask
     cv::subtract(1.0, _mask, _mask);
 
-    int fourcc = cv::VideoWriter::fourcc('X', '2', '6', '4');
+    int fourcc = cv::VideoWriter::fourcc('a', 'v', 'c', '1');
     cv::Size size = {outputConfig.width, outputConfig.height};
-    _outputWriter.open(outputConfig.path, fourcc, outputConfig.fps, size);
+    bool res = _outputWriter.open(outputConfig.path, API_PREFERENCE, fourcc, outputConfig.fps, size);
+    DEBUG_PRINT("*** OPEN result: " << res);
+    if (res) {
+        DEBUG_PRINTLN(", backend: " << _outputWriter.getBackendName());
+    } else {
+        DEBUG_PRINT("\n");
+    }
 }
 
 void Task::initialize() {

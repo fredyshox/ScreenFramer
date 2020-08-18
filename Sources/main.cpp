@@ -1,6 +1,6 @@
 //
 //  main.cpp
-//  AppVideoFramer
+//  ScreenFramer
 //
 //  Created by Kacper Rączy on 24/07/2020.
 //
