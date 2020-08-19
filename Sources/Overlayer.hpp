@@ -24,21 +24,27 @@ struct RGBColor {
 
 struct OverlayConfig {
     std::string imagePath;
-    int originX;
-    int originY;
+    int screenLeft;
+    int screenTop;
+    int screenRight;
+    int screenBottom;
     int templateWidth;
     int templateHeight;
 
     OverlayConfig() = default; // default constructable for json
     OverlayConfig(
         std::string imagePath,
-        int originX,
-        int originY,
+        int screenLeft,
+        int screenTop,
+        int screenRight,
+        int screenBottom,
         int templateWidth,
         int templateHeight
     );
     ~OverlayConfig() = default;
     bool isValid() const;
+    int screenWidth() const;
+    int screenHeight() const;
 };
 
 struct OutputConfig {

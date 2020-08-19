@@ -32,16 +32,29 @@ std::string RGBColor::hexString() {
 
 OverlayConfig::OverlayConfig(
     std::string imagePath,
-    int originX,
-    int originY,
+    int screenLeft,
+    int screenTop,
+    int screenRight,
+    int screenBottom,
     int templateWidth,
     int templateHeight
-): imagePath(imagePath), originX(originX),
-   originY(originY), templateWidth(templateWidth),
+): imagePath(imagePath), screenLeft(screenLeft),
+   screenTop(screenTop), screenRight(screenRight),
+   screenBottom(screenBottom), templateWidth(templateWidth),
    templateHeight(templateHeight) {}
 
 bool OverlayConfig::isValid() const {
-    return std::filesystem::exists(imagePath) && originX >= 0 && originY >= 0;
+    bool screenBoundsValid =
+        screenLeft >= 0 && screenTop >= 0 && screenBottom <= templateHeight && screenRight <= templateWidth;
+    return std::filesystem::exists(imagePath) && screenBoundsValid;
+}
+
+int OverlayConfig::screenWidth() const {
+    return screenRight - screenLeft;
+}
+
+int OverlayConfig::screenHeight() const {
+    return screenBottom - screenTop;
 }
 
 OutputConfig::OutputConfig(

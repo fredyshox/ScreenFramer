@@ -35,8 +35,8 @@ Task::Task(
 
     double fx = (double) outputConfig.width / (double) background.cols;
     double fy = (double) outputConfig.height / (double) background.rows;
-    int translatedOriginX = (int) round(overlayConfig.originX * fx);
-    int translatedOriginY = (int) round(overlayConfig.originY * fy);
+    int translatedOriginX = (int) round(overlayConfig.screenLeft * fx);
+    int translatedOriginY = (int) round(overlayConfig.screenTop * fy);
     int frameWidth = outputConfig.width - 2 * translatedOriginX;
     int frameHeight = outputConfig.height - 2 * translatedOriginY;
     _frameHeight = frameHeight;

@@ -149,7 +149,7 @@ else:
 
 # save metadata to json database
 res_width, res_height = psd.width, psd.height
-offset_x, offset_y = mask_data.left, mask_data.top
+left, top, right, bottom = mask_data.left, mask_data.top, mask_data.right, mask_data.bottom
 if db_path is not None:
     template_name = path.basename(output_path)
     key = path.splitext(template_name)[0]
@@ -157,8 +157,10 @@ if db_path is not None:
     db = db_load(db_path)
     db[key] = {
         "png_template_name": template_name,
-        "offset_x": offset_x,
-        "offset_y": offset_y,
+        "left": left,
+        "right": right,
+        "top": top,
+        "bottom": bottom,
         "res_width": res_width,
         "res_height": res_height
     }

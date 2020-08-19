@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <algorithm>
 #include <cassert>
 #include <cstdio>
 #include <opencv2/opencv.hpp>
@@ -36,8 +37,10 @@ void from_json(const json& j, avo::OverlayConfig& cfg) {
     std::string templateName = j.at("png_template_name");
     fs::path fullPath = dir / templateName;
     cfg.imagePath = fullPath.string();
-    j.at("offset_x").get_to(cfg.originX);
-    j.at("offset_y").get_to(cfg.originY);
+    j.at("left").get_to(cfg.screenLeft);
+    j.at("top").get_to(cfg.screenTop);
+    j.at("right").get_to(cfg.screenRight);
+    j.at("bottom").get_to(cfg.screenBottom);
     j.at("res_width").get_to(cfg.templateWidth);
     j.at("res_height").get_to(cfg.templateHeight);
 }
@@ -50,6 +53,28 @@ avo::RGBColor parseHex(const std::string &rgbHexStr) {
     }
 
     return { hexValue };
+}
+
+/**
+ * Finds appropriate config by comparing aspect ratios with input video
+ * @param cfgs vector of overlay configs
+ * @param inputWidth width of input video
+ * @param inputHeight height of input video
+ * @return
+ */
+int autoTemplate(const std::vector<avo::OverlayConfig>& cfgs, int inputWidth, int inputHeight) {
+    // ratio = w / h
+    double inputRatio = (double) inputWidth / (double) inputHeight;
+    int n = cfgs.size();
+    std::vector<double> diffs(n);
+    std::transform(cfgs.begin(), cfgs.end(), diffs.begin(), [inputRatio](auto cfg) {
+        return abs(inputRatio - (double) cfg.screenWidth() / (double) cfg.screenHeight());
+    });
+
+    // find min value
+    auto minIt = std::min_element(diffs.begin(), diffs.end());
+    int minIndex = std::distance(diffs.begin(), minIt);
+    return minIndex;
 }
 
 /**
@@ -70,7 +95,7 @@ int main(int argc, char** argv) {
     // parse command line arguments
     cxxopts::Options options("avframer", "Overlay videos from Apple devices");
     options.add_options()
-        ("t,template", "Device model template", cxxopts::value<std::string>()->default_value("iphone11"))
+        ("t,template", "Device model template", cxxopts::value<std::string>()->default_value("auto"))
         ("w,width", "Output video width", cxxopts::value<int>()->default_value("0"))
         ("h,height", "Output video height", cxxopts::value<int>()->default_value("0"))
         ("c,color", "Background color", cxxopts::value<std::string>()->default_value("#000000"))
@@ -112,26 +137,6 @@ int main(int argc, char** argv) {
         return 2;
     }
 
-    // load template json from resources
-    DEBUG_PRINTLN("*** Contents JSON path: " << CONTENTS_JSON_PATH);
-    std::ifstream configFile(CONTENTS_JSON_PATH);
-    nlohmann::json configJson;
-    configFile >> configJson;
-    configFile.close();
-
-    if (!configJson.contains(templateKey)) {
-        std::cerr << "Error: invalid template \"" << templateKey << "\"" << std::endl;
-        std::cerr << "Available keys:" << std::endl;
-        for (auto it = configJson.begin(); it != configJson.end(); ++it) {
-            std::cerr << " - " << it.key() << std::endl;
-        }
-        return 3;
-    }
-    auto config = configJson[templateKey].get<avo::OverlayConfig>();
-    assert(config.isValid());
-    DEBUG_PRINTLN("*** Config: path - " << config.imagePath << ", ox - " << config.originX << ", oy - " << config.originY);
-    avo::Overlayer ovl(config);
-
     // initialize video cap using input video
     cv::VideoCapture cap(videoPath);
     int totalFrames = (int) cap.get(cv::CAP_PROP_FRAME_COUNT);
@@ -140,6 +145,40 @@ int main(int argc, char** argv) {
     double fps = cap.get(cv::CAP_PROP_FPS);
     DEBUG_PRINTLN("*** Total frames: " << totalFrames << ", fps: " << fps);
     DEBUG_PRINTLN("*** Input frame dimensions: [" << inputWidth << ", " << inputHeight << "]");
+
+    // load template json from resources
+    DEBUG_PRINTLN("*** Contents JSON path: " << CONTENTS_JSON_PATH);
+    std::ifstream configFile(CONTENTS_JSON_PATH);
+    nlohmann::json configJson;
+    configFile >> configJson;
+    configFile.close();
+
+    avo::OverlayConfig config;
+    if (templateKey == "auto") {
+        // automatic template selection
+        std::vector<avo::OverlayConfig> configs;
+        for (auto it = configJson.begin(); it != configJson.end(); ++it) {
+            configs.push_back(it.value().get<avo::OverlayConfig>());
+        }
+        int index = autoTemplate(configs, inputWidth, inputHeight);
+        config = configs[index];
+        std::cout << "*** Detected template: " << fs::path(config.imagePath).filename() << std::endl;
+    } else if (configJson.contains(templateKey)) {
+        config = configJson[templateKey].get<avo::OverlayConfig>();
+    } else {
+        std::cerr << "Error: invalid template \"" << templateKey << "\"" << std::endl;
+        std::cerr << "Available keys:" << std::endl;
+        for (auto it = configJson.begin(); it != configJson.end(); ++it) {
+            std::cerr << " - " << it.key() << std::endl;
+        }
+
+        cap.release();
+        return 3;
+    }
+
+    assert(config.isValid());
+    DEBUG_PRINTLN("*** Config: path - " << config.imagePath << ", ox - " << config.screenLeft << ", oy - " << config.screenTop);
+    avo::Overlayer ovl(config);
 
     // only one of width,height nonzero values is used to retain proper aspect ratio
     if (width > 0) {
