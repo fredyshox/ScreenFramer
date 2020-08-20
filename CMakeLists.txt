@@ -41,6 +41,9 @@ target_link_libraries(ScreenFramer nlohmann_json::nlohmann_json)
 target_include_directories(ScreenFramer PRIVATE ./Dependencies/cpptqdm)
 set_target_properties(ScreenFramer PROPERTIES OUTPUT_NAME ${SF_BINARY_NAME})
 
+# test
+add_subdirectory(Test)
+
 # installation
 install(TARGETS ScreenFramer DESTINATION ${SF_BINARY_INSTALL_DIR})
 install(DIRECTORY Resources/ CONFIGURATIONS Release DESTINATION ${SF_TEMPLATES_INSTALL_DIR} PATTERN "Resources/*")
