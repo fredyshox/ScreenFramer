@@ -15,7 +15,8 @@
 
 namespace avo {
 
-Task::Task(
+template<class MatType>
+Task<MatType>::Task(
     const cv::Mat &background,
     const cv::Mat &mask,
     const OverlayConfig &overlayConfig,
@@ -56,24 +57,29 @@ Task::Task(
     DEBUG_PRINTLN("*** Translated ox - " << _translatedOriginX << ", oy - " << _translatedOriginY);
 
     // resize background and mask to desired size
-    cv::resize(background, _bg, {outputConfig.width, outputConfig.height});
-    cv::resize(mask, _mask, {outputConfig.width, outputConfig.height});
+    cv::Mat tempMask;
+    cv::Mat tempBg;
+    cv::resize(background, tempBg, {outputConfig.width, outputConfig.height});
+    cv::resize(mask, tempMask, {outputConfig.width, outputConfig.height});
 
-    // mask -> 3 channels, float, and invert
-    _mask.convertTo(_mask, CV_32F);
-    _mask /= 255.0;
-    cv::Mat temp[] = {_mask, _mask, _mask};
-    cv::merge(temp, 3, _mask);
+    // mask -> 3 float channels [0.0, 1.0]
+    tempMask.convertTo(tempMask, CV_32F);
+    tempMask /= 255.0;
+    cv::cvtColor(tempMask, tempMask, cv::COLOR_GRAY2BGR);
 
     // background -> float
-    _bg.convertTo(_bg, CV_32F);
-    cv::multiply(_bg, _mask, _bg);
+    tempBg.convertTo(tempBg, CV_32F);
+
+    // bg * mask -> _bg
+    cv::multiply(tempBg, tempMask, _bg);
 
     // invert mask
-    cv::subtract(1.0, _mask, _mask);
+    cv::subtract(1.0, tempMask, tempMask);
+    tempMask.copyTo(_mask);
 }
 
-void Task::initialize() {
+template<class MatType>
+void Task<MatType>::initialize() {
     if (isActive()) {
         throw std::runtime_error("Task is already active");
     }
@@ -104,7 +110,8 @@ void Task::initialize() {
     }
 }
 
-void Task::feedFrame(cv::Mat &rawFrame) {
+template<class MatType>
+void Task<MatType>::feedFrame(MatType &rawFrame) {
     if (!isActive()) {
         throw std::runtime_error("Task is not active");
     }
@@ -127,12 +134,18 @@ void Task::feedFrame(cv::Mat &rawFrame) {
     _outputWriter.write(_outputFrame);
 }
 
-bool Task::isActive() const {
+template<class MatType>
+bool Task<MatType>::isActive() const {
     return _outputWriter.isOpened();
 }
 
-void Task::finalize() {
+template<class MatType>
+void Task<MatType>::finalize() {
     _outputWriter.release();
 }
+
+// explicit instantiation
+template class Task<cv::Mat>;
+template class Task<cv::UMat>;
 
 }

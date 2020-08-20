@@ -13,16 +13,17 @@ namespace avo {
 
 struct OverlayConfig;
 
+template<class MatType>
 class Task {
 private:
     OutputConfig _outputConfig;
     cv::VideoWriter _outputWriter;
-    cv::Mat _bg;
-    cv::Mat _mask;
-    cv::Mat _u8Frame;
-    cv::Mat _screenFrame;
-    cv::Mat _outputFloatFrame;
-    cv::Mat _outputFrame;
+    MatType _bg;
+    MatType _mask;
+    MatType _u8Frame;
+    MatType _screenFrame;
+    MatType _outputFloatFrame;
+    MatType _outputFrame;
     cv::Scalar _backgroundColor;
     int _translatedOriginX;
     int _translatedOriginY;
@@ -37,7 +38,7 @@ public:
     );
 
     void initialize();
-    virtual void feedFrame(cv::Mat &rawFrame);
+    virtual void feedFrame(MatType &rawFrame);
     bool isActive() const;
     void finalize();
 };

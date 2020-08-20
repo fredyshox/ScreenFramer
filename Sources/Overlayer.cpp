@@ -55,8 +55,13 @@ OverlayConfig Overlayer::config() const {
     return _config;
 }
 
-Task Overlayer::overlayTask(const OutputConfig &outputConfig) {
-    return Task(_backgroundImage, _mask, _config, outputConfig);
+template<class MatType>
+Task<MatType> Overlayer::overlayTask(const OutputConfig &outputConfig) {
+    return Task<MatType>(_backgroundImage, _mask, _config, outputConfig);
 }
+
+// explicit instantiation
+template Task<cv::Mat> Overlayer::overlayTask<cv::Mat>(const OutputConfig &outputConfig);
+template Task<cv::UMat> Overlayer::overlayTask<cv::UMat>(const OutputConfig &outputConfig);
 
 }

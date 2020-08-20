@@ -47,7 +47,9 @@ protected:
 public:
     explicit Overlayer(const OverlayConfig &config);
     OverlayConfig config() const;
-    Task overlayTask(const OutputConfig& outputConfig);
+
+    template<class MatType>
+    Task<MatType> overlayTask(const OutputConfig& outputConfig);
 };
 
 } // namespace avo

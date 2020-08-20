@@ -29,17 +29,25 @@ else()
 endif()
 add_compile_definitions(VERSION_NUMBER="${PROJECT_VERSION}")
 
-# sources and link libraries
-set(ScreenFramer_SOURCES
+# libscreenframer
+set(ScreenFramerLib_SOURCES
         Sources/Overlayer.cpp
         Sources/OverlayTask.cpp
-        Sources/OutputConfig.cpp
+        Sources/OutputConfig.cpp)
+add_library(ScreenFramerLib STATIC ${ScreenFramerLib_SOURCES})
+target_link_libraries(ScreenFramerLib ${OpenCV_LIBS})
+set_target_properties(ScreenFramerLib PROPERTIES OUTPUT_NAME libscreenframer)
+
+# screenframer exec
+set(ScreenFramer_SOURCES
         Sources/main.cpp)
 add_executable(ScreenFramer ${ScreenFramer_SOURCES})
+target_link_libraries(ScreenFramer ScreenFramerLib)
 target_link_libraries(ScreenFramer ${OpenCV_LIBS})
 target_link_libraries(ScreenFramer cxxopts::cxxopts)
 target_link_libraries(ScreenFramer nlohmann_json::nlohmann_json)
 target_include_directories(ScreenFramer PRIVATE ./Dependencies/cpptqdm)
+target_include_directories(ScreenFramer PRIVATE ./Sources)
 set_target_properties(ScreenFramer PROPERTIES OUTPUT_NAME ${SF_BINARY_NAME})
 
 # test

@@ -197,7 +197,7 @@ int main(int argc, char** argv) {
     // start overlay task
     avo::OutputConfig output(outputPath, fps, width, height, backgroundColor);
     std::cout << "*** Output configuration: " << width << "x" << height << ", " << fps << "fps" << ", " << backgroundColor.hexString() << std::endl;
-    avo::Task task = ovl.overlayTask(output);
+    avo::Task<cv::Mat> task = ovl.overlayTask<cv::Mat>(output);
 
     task.initialize();
 

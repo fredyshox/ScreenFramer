@@ -1,0 +1,5 @@
+[Intel Core i7 4770HQ + Iris Pro 5200]
+- GPU_init:  -
+- CPU_init:  -
+- GPU_frame: 83 ms
+- CPU_frame: 106 ms
