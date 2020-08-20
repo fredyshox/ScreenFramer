@@ -33,6 +33,7 @@ add_compile_definitions(VERSION_NUMBER="${PROJECT_VERSION}")
 set(ScreenFramer_SOURCES
         Sources/Overlayer.cpp
         Sources/OverlayTask.cpp
+        Sources/OutputConfig.cpp
         Sources/main.cpp)
 add_executable(ScreenFramer ${ScreenFramer_SOURCES})
 target_link_libraries(ScreenFramer ${OpenCV_LIBS})
