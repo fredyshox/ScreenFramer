@@ -142,9 +142,9 @@ Not at the moment. But there are cool convertion tools for that, like [Gifski](h
 
 ## TODO
 
+* [x] Auto template selection based on video aspect ratio
 * [ ] GPU support using OpenCL
 * [ ] Templates in landscape mode
 * [ ] Templates for older devices
 * [ ] Gradient background
-* [ ] Auto template selection based on video aspect ratio
 * [ ] Linux support (distribution)
