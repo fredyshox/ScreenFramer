@@ -162,7 +162,8 @@ int main(int argc, char** argv) {
         }
         int index = autoTemplate(configs, inputWidth, inputHeight);
         config = configs[index];
-        std::cout << "*** Detected template: " << fs::path(config.imagePath).filename() << std::endl;
+        auto pathNoExt = fs::path(config.imagePath).replace_extension("");
+        std::cout << "*** Detected template: " << pathNoExt.filename() << std::endl;
     } else if (configJson.contains(templateKey)) {
         config = configJson[templateKey].get<avo::OverlayConfig>();
     } else {

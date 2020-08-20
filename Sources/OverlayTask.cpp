@@ -20,7 +20,7 @@ Task::Task(
     const cv::Mat &mask,
     const OverlayConfig &overlayConfig,
     const OutputConfig &outputConfig
-) {
+): _outputConfig(outputConfig) {
     if (background.empty() || mask.empty() || mask.channels() != 1) {
         throw std::invalid_argument("Background/Mask are invalid (are empty or have invalid channel count");
     }
@@ -37,8 +37,10 @@ Task::Task(
     double fy = (double) outputConfig.height / (double) background.rows;
     int translatedOriginX = (int) round(overlayConfig.screenLeft * fx);
     int translatedOriginY = (int) round(overlayConfig.screenTop * fy);
-    int frameWidth = outputConfig.width - 2 * translatedOriginX;
-    int frameHeight = outputConfig.height - 2 * translatedOriginY;
+    int translatedEndingX = (int) round(overlayConfig.screenRight * fx);
+    int translatedEndingY = (int) round(overlayConfig.screenBottom * fy);
+    int frameWidth = translatedEndingX - translatedOriginX;
+    int frameHeight = translatedEndingY - translatedOriginY;
     _frameHeight = frameHeight;
     _frameWidth = frameWidth;
     _translatedOriginX = translatedOriginX;
@@ -69,10 +71,31 @@ Task::Task(
 
     // invert mask
     cv::subtract(1.0, _mask, _mask);
+}
 
+void Task::initialize() {
+    if (isActive()) {
+        throw std::runtime_error("Task is already active");
+    }
+
+    // allocate memory and prepare output frame
+    int outputWidth = _outputConfig.width, outputHeight = _outputConfig.height;
+    _screenFrame.create(outputHeight, outputWidth, CV_32FC3);
+    _screenFrame.setTo(_backgroundColor);
+    // screen bounds + 1-pix border
+    cv::Rect roi(_translatedOriginX - 1, _translatedOriginY - 1, _frameWidth + 2, _frameHeight + 2);
+    _screenFrame(roi).setTo(cv::Scalar(0.0, 0.0, 0.0));
+    // mats for storing output
+    _outputFloatFrame.create(outputHeight, outputWidth, CV_32FC3);
+    _outputFrame.create(outputHeight, outputWidth, CV_8UC3);
+
+    // allocate memory for floating point frame and uint8 frame (resized frame)
+    _u8Frame.create(_frameHeight, _frameWidth, CV_32FC3);
+
+    // setup and open output video
     int fourcc = cv::VideoWriter::fourcc('a', 'v', 'c', '1');
-    cv::Size size = {outputConfig.width, outputConfig.height};
-    bool res = _outputWriter.open(outputConfig.path, API_PREFERENCE, fourcc, outputConfig.fps, size);
+    cv::Size size = {outputWidth, outputHeight};
+    bool res = _outputWriter.open(_outputConfig.path, API_PREFERENCE, fourcc, _outputConfig.fps, size);
     DEBUG_PRINT("*** OPEN result: " << res);
     if (res) {
         DEBUG_PRINTLN(", backend: " << _outputWriter.getBackendName());
@@ -81,44 +104,24 @@ Task::Task(
     }
 }
 
-void Task::initialize() {
-
-}
-
 void Task::feedFrame(cv::Mat &rawFrame) {
     if (!isActive()) {
-        // throw something
-        return;
+        throw std::runtime_error("Task is not active");
     }
 
     // frame resize +  float convertion
-    cv::resize(rawFrame, _outputFrame, {_frameWidth, _frameHeight});
-    // 2 pixel black border to avoid letting background through on frame border
-    cv::copyMakeBorder(
-        _outputFrame,
-        _outputFrame,
-        2, 2, 2, 2,
-        cv::BORDER_CONSTANT,
-        {0, 0, 0});
-    // background
-    cv::copyMakeBorder(
-            _outputFrame,
-            _outputFrame,
-            _translatedOriginY - 2,
-            _translatedOriginY - 2,
-            _translatedOriginX - 2,
-            _translatedOriginX - 2,
-            cv::BORDER_CONSTANT,
-            _backgroundColor
-    );
-    _outputFrame.convertTo(_floatFrame, CV_32F);
+    cv::resize(rawFrame, _u8Frame, {_frameWidth, _frameHeight});
+
+    // embed float frame inside output frame, in screen bounds
+    cv::Rect screenRect(_translatedOriginX, _translatedOriginY, _frameWidth, _frameHeight);
+    _u8Frame.convertTo(_screenFrame(screenRect), CV_32F);
 
     // alpha blending
-    cv::multiply(_mask, _floatFrame, _floatFrame);
-    cv::add(_floatFrame, _bg, _floatFrame);
+    cv::multiply(_mask, _screenFrame, _outputFloatFrame);
+    cv::add(_outputFloatFrame, _bg, _outputFloatFrame);
 
     // back to uint8
-    _floatFrame.convertTo(_outputFrame, CV_8U);
+    _outputFloatFrame.convertTo(_outputFrame, CV_8U);
 
     // write generated frame to writer
     _outputWriter.write(_outputFrame);
