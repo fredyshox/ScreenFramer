@@ -7,14 +7,15 @@
 
 #include <iostream>
 #include <string>
+#include <regex>
 #include <fstream>
 #include <algorithm>
 #include <cassert>
-#include <cstdio>
 #include <opencv2/opencv.hpp>
 #include <cxxopts.hpp>
 #include <nlohmann/json.hpp>
 #include "Overlayer.hpp"
+#include "Parsing.hpp"
 #include "Utility.hpp"
 #include "tqdm.hpp"
 
@@ -30,51 +31,11 @@ namespace fs = std::filesystem;
 #define TEMPLATE_IMAGES_PATH RESOURCES_PATH
 #define CONTENTS_JSON_PATH (fs::path(RESOURCES_PATH) / fs::path("contents.json")).string()
 
-// OverlayConfig json deserialization
-namespace avo {
-void from_json(const json& j, avo::OverlayConfig& cfg) {
-    fs::path dir(TEMPLATE_IMAGES_PATH);
-    std::string templateName = j.at("png_template_name");
-    fs::path fullPath = dir / templateName;
-    cfg.imagePath = fullPath.string();
-    j.at("left").get_to(cfg.screenLeft);
-    j.at("top").get_to(cfg.screenTop);
-    j.at("right").get_to(cfg.screenRight);
-    j.at("bottom").get_to(cfg.screenBottom);
-    j.at("res_width").get_to(cfg.templateWidth);
-    j.at("res_height").get_to(cfg.templateHeight);
-}
-} // namespace avo
-
-avo::RGBColor parseHex(const std::string &rgbHexStr) {
-    uint32_t hexValue;
-    if (rgbHexStr.length() != 7 || sscanf(rgbHexStr.c_str(), "#%6x", &hexValue) != 1) {
-        throw std::invalid_argument("RGB hex string is invalid");
+void printTemplateHelp(nlohmann::json& configJson) {
+    std::cerr << "Available keys:" << std::endl;
+    for (auto it = configJson.begin(); it != configJson.end(); ++it) {
+        std::cerr << " - " << it.key() << std::endl;
     }
-
-    return { hexValue };
-}
-
-/**
- * Finds appropriate config by comparing aspect ratios with input video
- * @param cfgs vector of overlay configs
- * @param inputWidth width of input video
- * @param inputHeight height of input video
- * @return
- */
-int autoTemplate(const std::vector<avo::OverlayConfig>& cfgs, int inputWidth, int inputHeight) {
-    // ratio = w / h
-    double inputRatio = (double) inputWidth / (double) inputHeight;
-    int n = cfgs.size();
-    std::vector<double> diffs(n);
-    std::transform(cfgs.begin(), cfgs.end(), diffs.begin(), [inputRatio](auto cfg) {
-        return abs(inputRatio - (double) cfg.screenWidth() / (double) cfg.screenHeight());
-    });
-
-    // find min value
-    auto minIt = std::min_element(diffs.begin(), diffs.end());
-    int minIndex = std::distance(diffs.begin(), minIt);
-    return minIndex;
 }
 
 /**
@@ -93,7 +54,7 @@ int main(int argc, char** argv) {
     int width, height;
 
     // parse command line arguments
-    cxxopts::Options options("avframer", "Overlay videos from Apple devices");
+    cxxopts::Options options("screenframer", "Overlay videos from Apple devices");
     options.add_options()
         ("t,template", "Device model template", cxxopts::value<std::string>()->default_value("auto"))
         ("w,width", "Output video width", cxxopts::value<int>()->default_value("0"))
@@ -124,7 +85,7 @@ int main(int argc, char** argv) {
         width = result["width"].as<int>();
         height = result["height"].as<int>();
         std::string rgbHexStr = result["color"].as<std::string>();
-        backgroundColor = parseHex(rgbHexStr);
+        backgroundColor = {rgbHexStr};
     } catch (const std::exception& e) {
         std::cerr << "Error parsing options: " << e.what() << std::endl << std::endl;
         std::cerr << options.help() << std::endl;
@@ -147,34 +108,39 @@ int main(int argc, char** argv) {
     DEBUG_PRINTLN("*** Input frame dimensions: [" << inputWidth << ", " << inputHeight << "]");
 
     // load template json from resources
-    DEBUG_PRINTLN("*** Contents JSON path: " << CONTENTS_JSON_PATH);
-    std::ifstream configFile(CONTENTS_JSON_PATH);
     nlohmann::json configJson;
-    configFile >> configJson;
-    configFile.close();
+    parseContentsJson(configJson);
 
     avo::OverlayConfig config;
     if (templateKey == "auto") {
         // automatic template selection
-        std::vector<avo::OverlayConfig> configs;
+        std::vector<ContentsEntry> entries;
         for (auto it = configJson.begin(); it != configJson.end(); ++it) {
-            configs.push_back(it.value().get<avo::OverlayConfig>());
+            entries.push_back(it.value().get<ContentsEntry>());
         }
-        int index = autoTemplate(configs, inputWidth, inputHeight);
-        config = configs[index];
+        int index = autoTemplate(entries, inputWidth, inputHeight);
+        entries[index].toOverlayConfig(config);
+        // print detected template
         auto pathNoExt = fs::path(config.imagePath).replace_extension("");
         std::cout << "*** Detected template: " << pathNoExt.filename() << std::endl;
-    } else if (configJson.contains(templateKey)) {
-        config = configJson[templateKey].get<avo::OverlayConfig>();
     } else {
-        std::cerr << "Error: invalid template \"" << templateKey << "\"" << std::endl;
-        std::cerr << "Available keys:" << std::endl;
-        for (auto it = configJson.begin(); it != configJson.end(); ++it) {
-            std::cerr << " - " << it.key() << std::endl;
-        }
+        try {
+            auto result = parseTemplateKey(templateKey);
+            auto deviceKey = std::get<0>(result);
+            auto colorKey = std::get<1>(result);
+            if (!configJson.contains(deviceKey)) {
+                throw std::runtime_error("Invalid device key \"" + deviceKey + "\"");
+            }
 
-        cap.release();
-        return 3;
+            auto entry = configJson[deviceKey].get<ContentsEntry>();
+            entry.toOverlayConfig(config, colorKey);
+        } catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            printTemplateHelp(configJson);
+            // release resources
+            cap.release();
+            return 3;
+        }
     }
 
     assert(config.isValid());

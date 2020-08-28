@@ -40,7 +40,8 @@ set_target_properties(ScreenFramerLib PROPERTIES OUTPUT_NAME libscreenframer)
 
 # screenframer exec
 set(ScreenFramer_SOURCES
-        Sources/main.cpp)
+        Sources/main.cpp
+        Sources/Parsing.cpp)
 add_executable(ScreenFramer ${ScreenFramer_SOURCES})
 target_link_libraries(ScreenFramer ScreenFramerLib)
 target_link_libraries(ScreenFramer ${OpenCV_LIBS})
