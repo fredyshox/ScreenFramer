@@ -21,6 +21,7 @@ I often record my app prototypes running in iOS simulator or on device to share 
 * Templates for modern models of iPhone, iPad and Apple Watch
 * Ability to choose video background color
 * Ability to control video dimensions
+* Device frame padding support
 * Outputs video using H.264 codec
 * Command line interface
 
@@ -51,49 +52,96 @@ To overlay screen recording at `INPUTPATH`, and save output at `OUTPUTPATH` run:
 
 Available options:
 
-* `-t, --template arg` Device template name (default - `iphone11`). Look at available templates below.
+* `-t, --template arg` Device template in format `device[_color]` (default - `auto`). Look at available templates below.
 * `-w, --width arg` Output video width (default - template width)
 * `-h, --height arg` Output video height (default - template height)
+* `-p, --padding arg` Device frame padding as fraction of output dimensions (default - 0.2)
 * `-c, --color arg` Background color in hex (default - #000000)
 
 ### Available templates
 
 ##### iPhones
 
-* iPhone 11: `iphone11`
+* iPhone 11: `iphone11` 
+  * Colors:  `black`,  `green`,  `purple`,  `red`,  `white`,  `yellow`
 * iPhone 11 Pro: `iphone11pro`
+  * Colors: `gold`,  `midnight-green`,  `silver`,  `space-gray`
 * iPhone 11 Pro Max: `iphone11promax`
-* iPhone SE (2020) Black: `iphonese-black`
-* iPhone SE (2020) White: `iphonese-white`
+  * Colors: `gold`,  `midnight-green`,  `silver`,  `space-gray`
+* iPhone Xs: `iphonexs`
+  * Colors: `gold`, `silver`, `space-gray`
+* iPhone Xs Max: `iphonexsmax`
+  * Colors: `gold`, `silver`, `space-gray`
+* iPhone Xr: `iphonexr`
+  * Colors: `blue`, `coral`, `red`, `silver`, `space-gray`, `yellow`
+* iPhone X: `iphonex`
+  * Colors: `silver`, `space-gray`
+* iPhone 8: `iphone8`
+  * Colors: `gold`, `silver`, `space-gray`
+* iPhone 8 Plus: `iphone8plus`
+  * Colors: `gold`, `silver`, `space-gray`
+* iPhone 7: `iphone7`:
+  * Colors: `gold`, `jet-black`, `matte-black`, `rose-gold`, `silver`
+* iPhone 7 Plus: `iphone7plus`
+  * Colors: `gold`, `jet-black`, `matte-black`, `rose-gold`, `silver`
+* iPhone 6s: `iphone6s`
+  * Colors: `gold`, `rose-gold`, `silver`, `space-gray`
+* iPhone 6s Plus: `iphone6splus`:
+  * Colors: `gold`, `rose-gold`, `silver`, `space-gray`
+* iPhone SE 1st gen: `iphonese`
+  * Colors: `gold`,  `rose-gold`,  `silver`,  `space-gray`
+* iPhone 5s: `iphone5s`
+  * Colors: `gold`, `silver`, `space-gray`
+* iPhone 5c: `iphone5c`:
+  * Colors: `blue`, `green`, `red`, `white`, `yellow`
 
 ##### iPad
 
-* iPad: `ipad`
+* iPad 10.2: `ipad102`
+  * Colors: `gold`, `silver`, `space-gray`
+* iPad Pro 10.5 (2 gen): `ipadpro`
+  * Colors: `gold`, `silver`, `space-gray`
 * iPad Pro 11 (3/4 gen): `ipadpro11`
+  * Colors: `silver`, `space-gray`
 * iPad Pro 12.9 (3/4 gen): `ipadpro129`
+  * Colors: `silver`, `space-gray`
+* iPad Air 3 (2019): `ipadair3`
+  * Colors: `gold`, `silver`, `space-gray`
+* iPad Air 2: `ipadair2`
+  * Colors: `gold`, `silver`, `space-gray`
+* iPad Mini 5 (2019): `ipadmini5`
+  * Colors: `gold`, `silver`, `space-gray`
+* iPad Mini 4: `ipadmini4`
+  * Colors: `gold`, `silver`, `space-gray`
 
 ##### Apple Watch
 
-* Apple Watch Series 5 with Black band: `applewatchseries5-blackband`
-* Apple Watch Series 5 with White band: `applewatchseries5-whiteband`
+* Apple Watch Series 5: `watchseries5`
+  * Colors: `black-band`, `white-band`
 
 ##### iPod Touch
 
-* iPod Touch (5/6/7 gen) Silver: `ipodtouch-silver`
-* iPod Touch (5/6/7 gen) Blue: `ipodtouch-blue`
+* iPod Touch (5/6/7 gen): `ipodtouch`
+  * Colors: `blue`, `silver`
 
 ### Examples
 
-Create video with iPhone 11 Pro frame, over white background, with width equal to 960 (while maintaining proper aspect ratio).
+Create video with iPhone 11 Pro frame with default color, over white background, with width equal to 960 (while maintaining proper aspect ratio).
 
 ```
 screenframer --template iphone11pro --width 960 --color '#FFFFFF' INPUTPATH OUTPUTPATH
 ```
 
-Create video with Apple Watch Series 5 frame, over green background, with height equal to 480.
+Create video with Apple Watch Series 5 with black band frame, over green background, with height equal to 480.
 
 ```
-screenframer --template applewatchseries5-blackband --height 480 --color '#03BD5B' INPUTPATH OUTPUTPATH
+screenframer --template watchseries5_black-band --height 480 --color '#03BD5B' INPUTPATH OUTPUTPATH
+```
+
+Create video with green iPhone 11 frame, over black background with padding  `0.1` on each side.
+
+```
+screenframer --template iphone11_green --color '#000000' --padding 0.1 INPUTPATH OUTPUTPATH
 ```
 
 ## Build
@@ -143,8 +191,8 @@ Not at the moment. But there are cool convertion tools for that, like [Gifski](h
 ## TODO
 
 * [x] Auto template selection based on video aspect ratio
+* [x] Templates for older devices
 * [ ] GPU support using OpenCL
 * [ ] Templates in landscape mode
-* [ ] Templates for older devices
 * [ ] Gradient background
 * [ ] Linux support (distribution)
