@@ -92,15 +92,16 @@ int main(int argc, char** argv) {
     fs::path tempDir = fs::temp_directory_path();
 
     auto config = avo::OverlayConfig(
-        (dir / "iPhone 11 - vertical.png").string(),
-        416,428,
-        1870,3572,
-        2286,4000);
+        (dir / "Apple iPhone 11 White.png").string(),
+        75, 71,
+        903, 1863,
+        979, 1934);
     auto output = avo::OutputConfig(
         tempDir / "sfbenchoutputS0SK28SHF73OZP74.mp4",
         60.0,
-        2286,
-        4000);
+        979,
+        1934,
+        0.0);
     avo::Overlayer overlayer(config);
 
     cv::ocl::setUseOpenCL(true);

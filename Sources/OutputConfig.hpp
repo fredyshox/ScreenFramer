@@ -26,9 +26,10 @@ struct OutputConfig {
     double fps;
     int width;
     int height;
+    double padding;
     RGBColor backgroundColor;
 
-    OutputConfig(std::string path, double fps, int width, int height, RGBColor backgroundColor = {});
+    OutputConfig(std::string path, double fps, int width, int height, double padding, RGBColor backgroundColor = {});
     ~OutputConfig() = default;
     bool isValid() const;
 };

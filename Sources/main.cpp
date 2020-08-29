@@ -32,9 +32,17 @@ namespace fs = std::filesystem;
 #define CONTENTS_JSON_PATH (fs::path(RESOURCES_PATH) / fs::path("contents.json")).string()
 
 void printTemplateHelp(nlohmann::json& configJson) {
-    std::cerr << "Available keys:" << std::endl;
+    std::cout << "Available keys:" << std::endl;
     for (auto it = configJson.begin(); it != configJson.end(); ++it) {
-        std::cerr << " - " << it.key() << std::endl;
+        std::cout << " - " << it.key() << " (";
+        auto imagesObj = it.value()["images"];
+        for (auto colorIt = imagesObj.begin(); colorIt != imagesObj.end(); ++colorIt) {
+            if (colorIt != imagesObj.begin()) {
+                std::cout << ", ";
+            }
+            std::cout << colorIt.key();
+        }
+        std::cout << ")" << std::endl;
     }
 }
 
@@ -52,6 +60,11 @@ int main(int argc, char** argv) {
     std::string templateKey;
     avo::RGBColor backgroundColor;
     int width, height;
+    double padding;
+
+    // load template json from resources
+    nlohmann::json configJson;
+    parseContentsJson(configJson);
 
     // parse command line arguments
     cxxopts::Options options("screenframer", "Overlay videos from Apple devices");
@@ -59,6 +72,7 @@ int main(int argc, char** argv) {
         ("t,template", "Device model template", cxxopts::value<std::string>()->default_value("auto"))
         ("w,width", "Output video width", cxxopts::value<int>()->default_value("0"))
         ("h,height", "Output video height", cxxopts::value<int>()->default_value("0"))
+        ("p,padding", "Output video padding", cxxopts::value<double>()->default_value("0.2"))
         ("c,color", "Background color", cxxopts::value<std::string>()->default_value("#000000"))
         ("help", "Print help")
         ("version", "Print version")
@@ -72,6 +86,7 @@ int main(int argc, char** argv) {
         auto result = options.parse(argc, argv);
         if (result.count("help")) {
             std::cout << options.help() << std::endl;
+            printTemplateHelp(configJson);
             return 0;
         }
 
@@ -84,11 +99,12 @@ int main(int argc, char** argv) {
         templateKey = result["template"].as<std::string>();
         width = result["width"].as<int>();
         height = result["height"].as<int>();
+        padding = result["padding"].as<double>();
         std::string rgbHexStr = result["color"].as<std::string>();
         backgroundColor = {rgbHexStr};
     } catch (const std::exception& e) {
         std::cerr << "Error parsing options: " << e.what() << std::endl << std::endl;
-        std::cerr << options.help() << std::endl;
+        std::cout << options.help() << std::endl;
         return 1;
     }
 
@@ -107,10 +123,7 @@ int main(int argc, char** argv) {
     DEBUG_PRINTLN("*** Total frames: " << totalFrames << ", fps: " << fps);
     DEBUG_PRINTLN("*** Input frame dimensions: [" << inputWidth << ", " << inputHeight << "]");
 
-    // load template json from resources
-    nlohmann::json configJson;
-    parseContentsJson(configJson);
-
+    // parse template config
     avo::OverlayConfig config;
     if (templateKey == "auto") {
         // automatic template selection
@@ -155,13 +168,13 @@ int main(int argc, char** argv) {
         double f = (double) height / config.templateHeight;
         width = (int) round(f * config.templateWidth);
     } else {
-        width = config.templateWidth;
-        height = config.templateHeight;
+        width = config.templateWidth + (int) (padding * config.templateWidth);
+        height = config.templateHeight + (int) (padding * config.templateHeight);
     }
     DEBUG_PRINTLN("*** Output frame dimensions: [" << width << ", " << height << "]");
 
     // start overlay task
-    avo::OutputConfig output(outputPath, fps, width, height, backgroundColor);
+    avo::OutputConfig output(outputPath, fps, width, height, padding, backgroundColor);
     std::cout << "*** Output configuration: " << width << "x" << height << ", " << fps << "fps" << ", " << backgroundColor.hexString() << std::endl;
     avo::Task<cv::Mat> task = ovl.overlayTask<cv::Mat>(output);
 
