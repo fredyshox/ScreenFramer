@@ -50,10 +50,11 @@ OutputConfig::OutputConfig(
     double fps,
     int width,
     int height,
-    double padding,
+    double pH,
+    double pV,
     RGBColor backgroundColor
 ): path(path), fps(fps), width(width), height(height),
-   padding(padding), backgroundColor(backgroundColor) {}
+   paddingHorizontal(pH), paddingVertical(pV), backgroundColor(backgroundColor) {}
 
 bool OutputConfig::isValid() const {
     return width > 0 && height > 0 && fps > 0.0;

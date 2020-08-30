@@ -42,6 +42,9 @@ void from_json(const json& j, ContentsEntry& entry);
 using TemplateParseResult = std::tuple<std::string, std::optional<std::string>>;
 TemplateParseResult parseTemplateKey(const std::string& str);
 
+// Padding parsing
+bool parsePadding(const std::string& str, std::tuple<double, double>& padding, const std::tuple<int, int>& dims);
+
 // Contents.json file parsing
 void parseContentsJson(json& json);
 

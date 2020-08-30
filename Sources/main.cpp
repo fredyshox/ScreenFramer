@@ -58,9 +58,9 @@ int main(int argc, char** argv) {
     std::string videoPath;
     std::string outputPath;
     std::string templateKey;
+    std::string paddingStr;
     avo::RGBColor backgroundColor;
     int width, height;
-    double padding;
 
     // load template json from resources
     nlohmann::json configJson;
@@ -72,7 +72,7 @@ int main(int argc, char** argv) {
         ("t,template", "Device model template", cxxopts::value<std::string>()->default_value("auto"))
         ("w,width", "Output video width", cxxopts::value<int>()->default_value("0"))
         ("h,height", "Output video height", cxxopts::value<int>()->default_value("0"))
-        ("p,padding", "Output video padding", cxxopts::value<double>()->default_value("0.2"))
+        ("p,padding", "Output video padding", cxxopts::value<std::string>()->default_value("0.2:"))
         ("c,color", "Background color", cxxopts::value<std::string>()->default_value("#000000"))
         ("help", "Print help")
         ("version", "Print version")
@@ -99,7 +99,7 @@ int main(int argc, char** argv) {
         templateKey = result["template"].as<std::string>();
         width = result["width"].as<int>();
         height = result["height"].as<int>();
-        padding = result["padding"].as<double>();
+        paddingStr = result["padding"].as<std::string>();
         std::string rgbHexStr = result["color"].as<std::string>();
         backgroundColor = {rgbHexStr};
     } catch (const std::exception& e) {
@@ -158,23 +158,35 @@ int main(int argc, char** argv) {
 
     assert(config.isValid());
     DEBUG_PRINTLN("*** Config: path - " << config.imagePath << ", ox - " << config.screenLeft << ", oy - " << config.screenTop);
+    DEBUG_PRINTLN("***         width - " << config.templateWidth << ", height - " << config.templateHeight);
     avo::Overlayer ovl(config);
+
+    // padding setup
+    std::tuple<double, double> padding;
+    if (!parsePadding(paddingStr, padding, {config.templateWidth, config.templateHeight})) {
+        std::cerr << "Error: Invalid padding string " << paddingStr << std::endl;
+        // release resources
+        cap.release();
+        return 4;
+    }
+    double pH = std::get<0>(padding), pV = std::get<1>(padding);
+    DEBUG_PRINTLN("*** Parsed padding: pH " << pH << ", pV " << pV);
 
     // only one of width,height nonzero values is used to retain proper aspect ratio
     if (width > 0) {
-        double f = (double) width / config.templateWidth;
-        height = (int) round(f * config.templateHeight);
+        double f = (double) width / (config.templateWidth + 2 * pH * config.templateWidth);
+        height = (int) round(f * (config.templateHeight + 2 * pV * config.templateHeight));
     } else if (height > 0) {
-        double f = (double) height / config.templateHeight;
-        width = (int) round(f * config.templateWidth);
+        double f = (double) height / (config.templateHeight + 2 * pV * config.templateHeight);
+        width = (int) round(f * (config.templateWidth + 2 * pH * config.templateWidth));
     } else {
-        width = config.templateWidth + (int) (padding * config.templateWidth);
-        height = config.templateHeight + (int) (padding * config.templateHeight);
+        width = config.templateWidth + (int) (2 * pH * config.templateWidth);
+        height = config.templateHeight + (int) (2 * pV * config.templateHeight);
     }
     DEBUG_PRINTLN("*** Output frame dimensions: [" << width << ", " << height << "]");
 
     // start overlay task
-    avo::OutputConfig output(outputPath, fps, width, height, padding, backgroundColor);
+    avo::OutputConfig output(outputPath, fps, width, height, pH, pV, backgroundColor);
     std::cout << "*** Output configuration: " << width << "x" << height << ", " << fps << "fps" << ", " << backgroundColor.hexString() << std::endl;
     avo::Task<cv::Mat> task = ovl.overlayTask<cv::Mat>(output);
 

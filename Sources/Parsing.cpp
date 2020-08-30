@@ -59,6 +59,46 @@ TemplateParseResult parseTemplateKey(const std::string& str) {
     return {device, color};
 }
 
+// Padding parsing
+
+bool parsePadding(const std::string& str, std::tuple<double, double>& padding, const std::tuple<int, int>& dims) {
+    DEBUG_PRINTLN("*** Parsing padding: \"" << str << "\"");
+    std::regex re("^([01]?\\.[0-9]+)|([01]?\\.[0-9]+)(?:\\:)|(?:\\:)([01]?\\.[0-9]+)$");
+    std::smatch sm;
+    if (!std::regex_match(str, sm, re)) {
+        return false;
+    }
+
+    // three groups, so elements:
+    // 0 - complete match
+    // 1 - group 1, 2 - group 2, 3 - group 3
+    // group 1 - uniform padding
+    // group 2 - horizontal and auto vertical
+    // group 3 - vertical and auto horizontal
+    DEBUG_PRINTLN("*** Padding match count: " << sm.length());
+    double width = std::get<0>(dims), height = std::get<1>(dims);
+    if (sm[1].matched) { // A.B
+        DEBUG_PRINTLN("*** Matched 1: \"" << sm[1] <<"\"");
+        double value = std::stod(sm[1]);
+        std::get<0>(padding) = value;
+        std::get<1>(padding) = value;
+    } else if (sm[2].matched) { // A.B:
+        DEBUG_PRINTLN("*** Matched 2: \"" << sm.str(2) << "\"");
+        double value = std::stod(sm[2]);
+        std::get<0>(padding) = value;
+        std::get<1>(padding) = (width / height) * value;
+    } else if (sm[3].matched) { // :A.B
+        DEBUG_PRINTLN("*** Matched 3: \"" << sm.str(3) << "\"");
+        double value = std::stod(sm[3]);
+        std::get<0>(padding) = (height / width) * value;
+        std::get<1>(padding) = value;
+    } else {
+        return false;
+    }
+
+    return true;
+}
+
 // Contents.json file parsing
 
 void parseContentsJson(nlohmann::json& json) {

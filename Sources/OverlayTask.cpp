@@ -35,8 +35,8 @@ Task<MatType>::Task(
     }
 
     // translate offsets/dimensions according to config
-    double frameWidth = (double) outputConfig.width / (1.0 + 2*outputConfig.padding);
-    double frameHeight = (double) outputConfig.height / (1.0 + 2*outputConfig.padding);
+    double frameWidth = (double) outputConfig.width / (1.0 + 2 * outputConfig.paddingHorizontal);
+    double frameHeight = (double) outputConfig.height / (1.0 + 2 * outputConfig.paddingVertical);
     double fx = frameWidth / (double) device.cols;
     double fy = frameHeight / (double) device.rows;
     int translatedOriginX = (int) round(overlayConfig.screenLeft * fx);
@@ -45,8 +45,8 @@ Task<MatType>::Task(
     int translatedEndingY = (int) round(overlayConfig.screenBottom * fy);
     int screenWidth = translatedEndingX - translatedOriginX;
     int screenHeight = translatedEndingY - translatedOriginY;
-    _frameOriginX = (int) (outputConfig.padding * frameWidth);
-    _frameOriginY = (int) (outputConfig.padding * frameHeight);
+    _frameOriginX = (int) (outputConfig.paddingHorizontal * frameWidth);
+    _frameOriginY = (int) (outputConfig.paddingVertical * frameHeight);
     _screenOriginX = translatedOriginX + _frameOriginX;
     _screenOriginY = translatedOriginY + _frameOriginY;
     _screenWidth = screenWidth;
