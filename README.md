@@ -55,8 +55,16 @@ Available options:
 * `-t, --template arg` Device template in format `device[_color]` (default - `auto`). Look at available templates below.
 * `-w, --width arg` Output video width (default - template width)
 * `-h, --height arg` Output video height (default - template height)
-* `-p, --padding arg` Device frame padding as fraction of output dimensions (default - 0.2)
+* `-p, --padding arg` Device frame padding (default - `0.2:`). Look padding syntax below.
 * `-c, --color arg` Background color in hex (default - #000000)
+
+### Padding syntax 
+
+Padding can be specified using fraction of output dimensions. Available options:
+
+* `X.Y` uniform padding of `X.Y`
+* `X.Y:` horizontal padding of `X.Y`, and automatic vertical padding to be equal
+* `:X.Y` vertical padding of `X.Y`, and automatic horizontal padding to be equal
 
 ### Available templates
 

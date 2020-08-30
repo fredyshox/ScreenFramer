@@ -27,7 +27,8 @@ for PSD in "${TEMPLATE_DIR}"/**/*.psd; do
   fi
 done
 # fastlane frameit
-echo "\n*** FASTLANE FRAMEIT"
+echo ""
+echo "*** FASTLANE FRAMEIT"
 python3 ./Tools/fastlane-templates.py "${RESOURCE_DIR}" "${CONTENT_JSON}"
 
 

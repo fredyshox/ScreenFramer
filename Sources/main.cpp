@@ -72,7 +72,7 @@ int main(int argc, char** argv) {
         ("t,template", "Device model template", cxxopts::value<std::string>()->default_value("auto"))
         ("w,width", "Output video width", cxxopts::value<int>()->default_value("0"))
         ("h,height", "Output video height", cxxopts::value<int>()->default_value("0"))
-        ("p,padding", "Output video padding", cxxopts::value<std::string>()->default_value("0.2:"))
+        ("p,padding", "Output video padding", cxxopts::value<std::string>()->default_value("0.16:"))
         ("c,color", "Background color", cxxopts::value<std::string>()->default_value("#000000"))
         ("help", "Print help")
         ("version", "Print version")
