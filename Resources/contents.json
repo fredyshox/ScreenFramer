@@ -1,155 +1,378 @@
 {
-    "ipadpro11-horizontal": {
-        "bottom": 2618,
-        "left": 459,
-        "png_template_name": "11-inch iPad Pro - horizontal.png",
-        "res_height": 3080,
-        "res_width": 4000,
-        "right": 3546,
-        "top": 459
+    "ipad102": {
+        "bottom": 2385,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPad 10.2 Gold.png",
+            "silver": "Apple iPad 10.2 Silver.png",
+            "space-gray": "Apple iPad 10.2 Space Gray.png"
+        },
+        "left": 96,
+        "res_height": 2606,
+        "res_width": 1812,
+        "right": 1716,
+        "top": 225
+    },
+    "ipadair2": {
+        "bottom": 2272,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPad Air 2 Gold.png",
+            "silver": "Apple iPad Air 2 Silver.png",
+            "space-gray": "Apple iPad Air 2 Space Gray.png"
+        },
+        "left": 111,
+        "res_height": 2496,
+        "res_width": 1763,
+        "right": 1647,
+        "top": 224
+    },
+    "ipadair3": {
+        "bottom": 2416,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPad Air (2019) Gold.png",
+            "silver": "Apple iPad Air (2019) Silver.png",
+            "space-gray": "Apple iPad Air (2019) Space Gray.png"
+        },
+        "left": 73,
+        "res_height": 2608,
+        "res_width": 1812,
+        "right": 1741,
+        "top": 192
+    },
+    "ipadmini4": {
+        "bottom": 2326,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPad Mini 4 Gold.png",
+            "silver": "Apple iPad Mini 4 Silver.png",
+            "space-gray": "Apple iPad Mini 4 Space Gray.png"
+        },
+        "left": 96,
+        "res_height": 2604,
+        "res_width": 1728,
+        "right": 1632,
+        "top": 278
+    },
+    "ipadmini5": {
+        "bottom": 2327,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPad Mini (2019) Gold.png",
+            "silver": "Apple iPad Mini (2019) Silver.png",
+            "space-gray": "Apple iPad Mini (2019) Space Gray.png"
+        },
+        "left": 96,
+        "res_height": 2607,
+        "res_width": 1728,
+        "right": 1632,
+        "top": 279
+    },
+    "ipadpro": {
+        "bottom": 2948,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPad Pro Gold.png",
+            "silver": "Apple iPad Pro Silver.png",
+            "space-gray": "Apple iPad Pro Space Gray.png"
+        },
+        "left": 119,
+        "res_height": 3168,
+        "res_width": 2286,
+        "right": 2167,
+        "top": 216
     },
     "ipadpro11": {
-        "bottom": 3789,
-        "left": 750,
-        "png_template_name": "11-inch iPad Pro - vertical.png",
-        "res_height": 4000,
-        "res_width": 4000,
-        "right": 3251,
-        "top": 211
-    },
-    "ipadpro129-horizontal": {
-        "bottom": 3274,
-        "left": 307,
-        "png_template_name": "12.9-inch iPad Pro - horizontal.png",
-        "res_height": 4000,
-        "res_width": 4000,
-        "right": 3698,
-        "top": 731
+        "bottom": 2488,
+        "default_image": "space-gray",
+        "images": {
+            "silver": "Apple iPad Pro (11-inch) Silver.png",
+            "space-gray": "Apple iPad Pro (11-inch) Space Gray.png"
+        },
+        "left": 95,
+        "res_height": 2583,
+        "res_width": 1863,
+        "right": 1763,
+        "top": 100
     },
     "ipadpro129": {
-        "bottom": 3696,
-        "left": 729,
-        "png_template_name": "12.9-inch iPad Pro - vertical.png",
-        "res_height": 4000,
-        "res_width": 4000,
-        "right": 3271,
-        "top": 304
-    },
-    "applewatchseries5-blackband": {
-        "bottom": 2695,
-        "left": 1429,
-        "png_template_name": "Apple Watch Series 5 - black band.png",
-        "res_height": 4000,
-        "res_width": 4000,
-        "right": 2571,
-        "top": 1305
-    },
-    "applewatchseries5-whiteband": {
-        "bottom": 2695,
-        "left": 1429,
-        "png_template_name": "Apple Watch Series 5 - white band.png",
-        "res_height": 4000,
-        "res_width": 4000,
-        "right": 2571,
-        "top": 1305
-    },
-    "ipad-horizontal": {
-        "bottom": 3211,
-        "left": 385,
-        "png_template_name": "iPad - horizontal.png",
-        "res_height": 4000,
-        "res_width": 4000,
-        "right": 3615,
-        "top": 788
-    },
-    "ipad": {
-        "bottom": 3616,
-        "left": 788,
-        "png_template_name": "iPad - vertical.png",
-        "res_height": 4000,
-        "res_width": 4000,
-        "right": 3212,
-        "top": 384
+        "bottom": 2834,
+        "default_image": "space-gray",
+        "images": {
+            "silver": "Apple iPad Pro (12.9-inch) (3rd generation) Silver.png",
+            "space-gray": "Apple iPad Pro (12.9-inch) (3rd generation) Space Gray.png"
+        },
+        "left": 96,
+        "res_height": 2930,
+        "res_width": 2245,
+        "right": 2144,
+        "top": 102
     },
     "iphone11": {
-        "bottom": 3572,
-        "left": 416,
-        "png_template_name": "iPhone 11 - vertical.png",
-        "res_height": 4000,
-        "res_width": 2286,
-        "right": 1870,
-        "top": 428
+        "bottom": 1863,
+        "default_image": "black",
+        "images": {
+            "black": "Apple iPhone 11 Black.png",
+            "green": "Apple iPhone 11 Green.png",
+            "purple": "Apple iPhone 11 Purple.png",
+            "red": "Apple iPhone 11 Red.png",
+            "white": "Apple iPhone 11 White.png",
+            "yellow": "Apple iPhone 11 Yellow.png"
+        },
+        "left": 75,
+        "res_height": 1934,
+        "res_width": 979,
+        "right": 903,
+        "top": 71
     },
     "iphone11pro": {
-        "bottom": 3623,
-        "left": 395,
-        "png_template_name": "iPhone 11 Pro.png",
-        "res_height": 4000,
-        "res_width": 2292,
-        "right": 1897,
-        "top": 375
+        "bottom": 2513,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPhone 11 Pro Gold.png",
+            "midnight-green": "Apple iPhone 11 Pro Midnight Green.png",
+            "silver": "Apple iPhone 11 Pro Silver.png",
+            "space-gray": "Apple iPhone 11 Pro Space Gray.png"
+        },
+        "left": 85,
+        "res_height": 2590,
+        "res_width": 1295,
+        "right": 1210,
+        "top": 77
     },
     "iphone11promax": {
-        "bottom": 3791,
-        "left": 317,
-        "png_template_name": "iPhone 11 Pro Max.png",
-        "res_height": 4000,
-        "res_width": 2292,
-        "right": 1975,
-        "top": 207
+        "bottom": 2766,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPhone 11 Pro Max Gold.png",
+            "midnight-green": "Apple iPhone 11 Pro Max Midnight Green.png",
+            "silver": "Apple iPhone 11 Pro Max Silver.png",
+            "space-gray": "Apple iPhone 11 Pro Max Space Gray.png"
+        },
+        "left": 86,
+        "res_height": 2844,
+        "res_width": 1413,
+        "right": 1328,
+        "top": 78
     },
-    "iphonese-black": {
-        "bottom": 3173,
-        "left": 484,
-        "png_template_name": "iPhone SE - Black.png",
-        "res_height": 4000,
-        "res_width": 2286,
-        "right": 1804,
-        "top": 827
+    "iphone5c": {
+        "bottom": 1375,
+        "default_image": "white",
+        "images": {
+            "blue": "Apple iPhone 5c Blue.png",
+            "green": "Apple iPhone 5c Green.png",
+            "red": "Apple iPhone 5c Red.png",
+            "white": "Apple iPhone 5c White.png",
+            "yellow": "Apple iPhone 5c Yellow.png"
+        },
+        "left": 67,
+        "res_height": 1605,
+        "res_width": 767,
+        "right": 707,
+        "top": 239
     },
-    "iphonese-white": {
-        "bottom": 3173,
-        "left": 484,
-        "png_template_name": "iPhone SE - White.png",
-        "res_height": 4000,
-        "res_width": 2286,
-        "right": 1804,
-        "top": 827
+    "iphone5s": {
+        "bottom": 1374,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPhone 5s Gold.png",
+            "silver": "Apple iPhone 5s Silver.png",
+            "space-gray": "Apple iPhone 5s Space Gray.png"
+        },
+        "left": 64,
+        "res_height": 1597,
+        "res_width": 760,
+        "right": 704,
+        "top": 238
     },
-    "ipodtouch-landscape-blue": {
-        "bottom": 710,
-        "left": 242,
-        "png_template_name": "iPodTouch-Landscape-Blue.png",
-        "res_height": 780,
-        "res_width": 1620,
-        "right": 1378,
-        "top": 70
+    "iphone6s": {
+        "bottom": 1562,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPhone 6s Gold.png",
+            "rose-gold": "Apple iPhone 6s Rose Gold.png",
+            "silver": "Apple iPhone 6s Silver.png",
+            "space-gray": "Apple iPhone 6s Space Gray.png"
+        },
+        "left": 61,
+        "res_height": 1776,
+        "res_width": 871,
+        "right": 811,
+        "top": 228
     },
-    "ipodtouch-landscape-silver": {
-        "bottom": 710,
-        "left": 242,
-        "png_template_name": "iPodTouch-Landscape-Silver.png",
-        "res_height": 780,
-        "res_width": 1620,
-        "right": 1378,
-        "top": 70
+    "iphone6splus": {
+        "bottom": 2587,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPhone 6s Plus Gold.png",
+            "rose-gold": "Apple iPhone 6s Plus Rose Gold.png",
+            "silver": "Apple iPhone 6s Plus Silver.png",
+            "space-gray": "Apple iPhone 6s Plus Space Gray.png"
+        },
+        "left": 102,
+        "res_height": 2948,
+        "res_width": 1446,
+        "right": 1344,
+        "top": 379
     },
-    "ipodtouch-blue": {
-        "bottom": 1378,
-        "left": 70,
-        "png_template_name": "iPodTouch-Portrait-Blue.png",
-        "res_height": 1620,
-        "res_width": 780,
-        "right": 710,
-        "top": 242
+    "iphone7": {
+        "bottom": 1562,
+        "default_image": "matte-black",
+        "images": {
+            "gold": "Apple iPhone 7 Gold.png",
+            "jet-black": "Apple iPhone 7 Jet Black.png",
+            "matte-black": "Apple iPhone 7 Matte Black.png",
+            "rose-gold": "Apple iPhone 7 Rose Gold.png",
+            "silver": "Apple iPhone 7 Silver.png"
+        },
+        "left": 61,
+        "res_height": 1776,
+        "res_width": 871,
+        "right": 811,
+        "top": 228
     },
-    "ipodtouch-silver": {
-        "bottom": 1378,
-        "left": 70,
-        "png_template_name": "iPodTouch-Portrait-Silver.png",
-        "res_height": 1620,
-        "res_width": 780,
-        "right": 710,
-        "top": 242
+    "iphone7plus": {
+        "bottom": 2588,
+        "default_image": "matte-black",
+        "images": {
+            "gold": "Apple iPhone 7 Plus Gold.png",
+            "jet-black": "Apple iPhone 7 Plus Jet Black.png",
+            "matte-black": "Apple iPhone 7 Plus Matte Black.png",
+            "rose-gold": "Apple iPhone 7 Plus Rose Gold.png",
+            "silver": "Apple iPhone 7 Plus Silver.png"
+        },
+        "left": 104,
+        "res_height": 2948,
+        "res_width": 1446,
+        "right": 1346,
+        "top": 380
+    },
+    "iphone8": {
+        "bottom": 1553,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPhone 8 Gold.png",
+            "silver": "Apple iPhone 8 Silver.png",
+            "space-gray": "Apple iPhone 8 Space Gray.png"
+        },
+        "left": 61,
+        "res_height": 1776,
+        "res_width": 871,
+        "right": 811,
+        "top": 219
+    },
+    "iphone8plus": {
+        "bottom": 2543,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPhone 8 Plus Gold.png",
+            "silver": "Apple iPhone 8 Plus Silver.png",
+            "space-gray": "Apple iPhone 8 Plus Space Gray.png"
+        },
+        "left": 98,
+        "res_height": 2876,
+        "res_width": 1436,
+        "right": 1340,
+        "top": 335
+    },
+    "iphonese": {
+        "bottom": 1373,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPhone SE Gold.png",
+            "rose-gold": "Apple iPhone SE Rose Gold.png",
+            "silver": "Apple iPhone SE Silver.png",
+            "space-gray": "Apple iPhone SE Space Gray.png"
+        },
+        "left": 64,
+        "res_height": 1594,
+        "res_width": 760,
+        "right": 704,
+        "top": 237
+    },
+    "iphonex": {
+        "bottom": 2513,
+        "default_image": "space-gray",
+        "images": {
+            "silver": "Apple iPhone X Silver.png",
+            "space-gray": "Apple iPhone X Space Gray.png"
+        },
+        "left": 85,
+        "res_height": 2590,
+        "res_width": 1295,
+        "right": 1210,
+        "top": 77
+    },
+    "iphonexr": {
+        "bottom": 1863,
+        "default_image": "space-gray",
+        "images": {
+            "blue": "Apple iPhone XR Blue.png",
+            "coral": "Apple iPhone XR Coral.png",
+            "red": "Apple iPhone XR Red.png",
+            "silver": "Apple iPhone XR Silver.png",
+            "space-gray": "Apple iPhone XR Space Gray.png",
+            "yellow": "Apple iPhone XR Yellow.png"
+        },
+        "left": 75,
+        "res_height": 1934,
+        "res_width": 979,
+        "right": 903,
+        "top": 71
+    },
+    "iphonexs": {
+        "bottom": 2513,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPhone XS Gold.png",
+            "silver": "Apple iPhone XS Silver.png",
+            "space-gray": "Apple iPhone XS Space Gray.png"
+        },
+        "left": 85,
+        "res_height": 2590,
+        "res_width": 1295,
+        "right": 1210,
+        "top": 77
+    },
+    "iphonexsmax": {
+        "bottom": 2766,
+        "default_image": "space-gray",
+        "images": {
+            "gold": "Apple iPhone XS Max Gold.png",
+            "silver": "Apple iPhone XS Max Silver.png",
+            "space-gray": "Apple iPhone XS Max Space Gray.png"
+        },
+        "left": 86,
+        "res_height": 2844,
+        "res_width": 1413,
+        "right": 1328,
+        "top": 78
+    },
+    "ipodtouch": {
+        "bottom": -224,
+        "default_image": "blue",
+        "images": {
+            "blue": "iPodTouch-Portrait-Blue.png",
+            "silver": "iPodTouch-Portrait-Silver.png"
+        },
+        "left": 60,
+        "res_height": 1587,
+        "res_width": 755,
+        "right": -55,
+        "top": 227
+    },
+    "watchseries5": {
+        "bottom": -636,
+        "default_image": "black-band",
+        "images": {
+            "black-band": "Apple Watch Series 5 - black band.png",
+            "white-band": "Apple Watch Series 5 - white band.png"
+        },
+        "left": 174,
+        "res_height": 2661,
+        "res_width": 1555,
+        "right": -239,
+        "top": 635
     }
 }

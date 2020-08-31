@@ -17,6 +17,7 @@ struct RGBColor {
 
     RGBColor(uint8_t red = 0, uint8_t green = 0, uint8_t blue = 0);
     RGBColor(uint32_t value);
+    RGBColor(const std::string& rgbHexStr);
     std::string hexString();
 };
 
@@ -25,9 +26,11 @@ struct OutputConfig {
     double fps;
     int width;
     int height;
+    double paddingHorizontal;
+    double paddingVertical;
     RGBColor backgroundColor;
 
-    OutputConfig(std::string path, double fps, int width, int height, RGBColor backgroundColor = {});
+    OutputConfig(std::string path, double fps, int width, int height, double pH, double pV, RGBColor backgroundColor = {});
     ~OutputConfig() = default;
     bool isValid() const;
 };

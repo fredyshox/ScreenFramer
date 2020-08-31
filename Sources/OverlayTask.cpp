@@ -4,7 +4,7 @@
 
 #include "OverlayTask.hpp"
 #include "Overlayer.hpp"
-#include "Utility.hpp"
+#include "Debug.hpp"
 #include <opencv2/imgproc.hpp>
 
 #ifdef MACOS_APP
@@ -17,13 +17,13 @@ namespace avo {
 
 template<class MatType>
 Task<MatType>::Task(
-    const cv::Mat &background,
+    const cv::Mat &device,
     const cv::Mat &mask,
     const OverlayConfig &overlayConfig,
     const OutputConfig &outputConfig
 ): _outputConfig(outputConfig) {
-    if (background.empty() || mask.empty() || mask.channels() != 1) {
-        throw std::invalid_argument("Background/Mask are invalid (are empty or have invalid channel count");
+    if (device.empty() || mask.empty() || mask.channels() != 1) {
+        throw std::invalid_argument("DeviceFrame/Mask are invalid (are empty or have invalid channel count");
     }
 
     if (!overlayConfig.isValid()) {
@@ -34,18 +34,25 @@ Task<MatType>::Task(
         throw std::invalid_argument("OutputConfig is not valid!");
     }
 
-    double fx = (double) outputConfig.width / (double) background.cols;
-    double fy = (double) outputConfig.height / (double) background.rows;
+    // translate offsets/dimensions according to config
+    double frameWidth = (double) outputConfig.width / (1.0 + 2 * outputConfig.paddingHorizontal);
+    double frameHeight = (double) outputConfig.height / (1.0 + 2 * outputConfig.paddingVertical);
+    double fx = frameWidth / (double) device.cols;
+    double fy = frameHeight / (double) device.rows;
     int translatedOriginX = (int) round(overlayConfig.screenLeft * fx);
     int translatedOriginY = (int) round(overlayConfig.screenTop * fy);
     int translatedEndingX = (int) round(overlayConfig.screenRight * fx);
     int translatedEndingY = (int) round(overlayConfig.screenBottom * fy);
-    int frameWidth = translatedEndingX - translatedOriginX;
-    int frameHeight = translatedEndingY - translatedOriginY;
-    _frameHeight = frameHeight;
-    _frameWidth = frameWidth;
-    _translatedOriginX = translatedOriginX;
-    _translatedOriginY = translatedOriginY;
+    int screenWidth = translatedEndingX - translatedOriginX;
+    int screenHeight = translatedEndingY - translatedOriginY;
+    _frameOriginX = (int) (outputConfig.paddingHorizontal * frameWidth);
+    _frameOriginY = (int) (outputConfig.paddingVertical * frameHeight);
+    _screenOriginX = translatedOriginX + _frameOriginX;
+    _screenOriginY = translatedOriginY + _frameOriginY;
+    _screenWidth = screenWidth;
+    _screenHeight = screenHeight;
+    _frameWidth = (int) frameWidth;
+    _frameHeight = (int) frameHeight;
     // opencv default is BGR
     _backgroundColor = {
         (double) outputConfig.backgroundColor.blue,
@@ -54,24 +61,26 @@ Task<MatType>::Task(
     };
 
     DEBUG_PRINTLN("*** Embedded frame dimensions: [" << _frameWidth << ", " << _frameHeight << "]");
-    DEBUG_PRINTLN("*** Translated ox - " << _translatedOriginX << ", oy - " << _translatedOriginY);
+    DEBUG_PRINTLN("*** Embedded screen dimensions: [" << _screenWidth << ", " << _screenHeight << "]");
+    DEBUG_PRINTLN("*** Translated frame ox - " << _frameOriginX << ", oy - " << _frameOriginY);
+    DEBUG_PRINTLN("*** Translated screen ox - " << _screenOriginX << ", oy - " << _screenOriginY);
 
-    // resize background and mask to desired size
+    // resize device frame and mask to desired size
     cv::Mat tempMask;
-    cv::Mat tempBg;
-    cv::resize(background, tempBg, {outputConfig.width, outputConfig.height});
-    cv::resize(mask, tempMask, {outputConfig.width, outputConfig.height});
+    cv::Mat tempDevice;
+    cv::resize(device, tempDevice, {_frameWidth, _frameHeight});
+    cv::resize(mask, tempMask, {_frameWidth, _frameHeight});
 
     // mask -> 3 float channels [0.0, 1.0]
     tempMask.convertTo(tempMask, CV_32F);
     tempMask /= 255.0;
     cv::cvtColor(tempMask, tempMask, cv::COLOR_GRAY2BGR);
 
-    // background -> float
-    tempBg.convertTo(tempBg, CV_32F);
+    // device -> float
+    tempDevice.convertTo(tempDevice, CV_32F);
 
-    // bg * mask -> _bg
-    cv::multiply(tempBg, tempMask, _bg);
+    // device * mask -> _device
+    cv::multiply(tempDevice, tempMask, _device);
 
     // invert mask
     cv::subtract(1.0, tempMask, tempMask);
@@ -89,14 +98,15 @@ void Task<MatType>::initialize() {
     _screenFrame.create(outputHeight, outputWidth, CV_32FC3);
     _screenFrame.setTo(_backgroundColor);
     // screen bounds + 1-pix border
-    cv::Rect roi(_translatedOriginX - 1, _translatedOriginY - 1, _frameWidth + 2, _frameHeight + 2);
+    cv::Rect roi(_screenOriginX - 1, _screenOriginY - 1, _screenWidth + 2, _screenHeight + 2);
     _screenFrame(roi).setTo(cv::Scalar(0.0, 0.0, 0.0));
     // mats for storing output
     _outputFloatFrame.create(outputHeight, outputWidth, CV_32FC3);
+    _outputFloatFrame.setTo(_backgroundColor);
     _outputFrame.create(outputHeight, outputWidth, CV_8UC3);
 
     // allocate memory for floating point frame and uint8 frame (resized frame)
-    _u8Frame.create(_frameHeight, _frameWidth, CV_32FC3);
+    _u8Frame.create(_screenHeight, _screenWidth, CV_32FC3);
 
     // setup and open output video
     int fourcc = cv::VideoWriter::fourcc('a', 'v', 'c', '1');
@@ -117,15 +127,16 @@ void Task<MatType>::feedFrame(MatType &rawFrame) {
     }
 
     // frame resize +  float convertion
-    cv::resize(rawFrame, _u8Frame, {_frameWidth, _frameHeight});
+    cv::resize(rawFrame, _u8Frame, {_screenWidth, _screenHeight});
 
     // embed float frame inside output frame, in screen bounds
-    cv::Rect screenRect(_translatedOriginX, _translatedOriginY, _frameWidth, _frameHeight);
+    cv::Rect screenRect(_screenOriginX, _screenOriginY, _screenWidth, _screenHeight);
     _u8Frame.convertTo(_screenFrame(screenRect), CV_32F);
 
     // alpha blending
-    cv::multiply(_mask, _screenFrame, _outputFloatFrame);
-    cv::add(_outputFloatFrame, _bg, _outputFloatFrame);
+    cv::Rect frameRect(_frameOriginX, _frameOriginY, _frameWidth, _frameHeight);
+    cv::multiply(_screenFrame(frameRect), _mask, _outputFloatFrame(frameRect));
+    cv::add(_outputFloatFrame(frameRect), _device, _outputFloatFrame(frameRect));
 
     // back to uint8
     _outputFloatFrame.convertTo(_outputFrame, CV_8U);

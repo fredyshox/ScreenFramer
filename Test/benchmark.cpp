@@ -49,7 +49,7 @@ void checkOpenCL() {
     }
 
     std::cout << context.ndevices() << " OpenCL devices are detected." << std::endl; //This bit provides an overview of the OpenCL devices you have in your computer
-    for (int i = 0; i < context.ndevices(); i++) {
+    for (unsigned long i = 0; i < context.ndevices(); i++) {
         cv::ocl::Device device = context.device(i);
         std::cout << "name:              " << device.name() << std::endl;
         std::cout << "available:         " << device.available() << std::endl;
@@ -61,7 +61,7 @@ void checkOpenCL() {
 }
 
 template<class MatType>
-void benchmark(avo::Overlayer& overlayer, avo::OutputConfig& output) {
+void benchmark(avo::Overlayer& overlayer, avo::OutputConfig& output, const int iters = 300) {
     auto frame = genSampleMat<MatType>(886, 1920);
     // START task init
     auto taskStart = chrono::high_resolution_clock::now();
@@ -74,7 +74,7 @@ void benchmark(avo::Overlayer& overlayer, avo::OutputConfig& output) {
 
     // START average frame processing
     std::vector<long long> results;
-    for (int i = 0; i < 300; i++) {
+    for (int i = 0; i < iters; i++) {
         auto start = chrono::high_resolution_clock::now();
         task.feedFrame(frame);
         auto end = chrono::high_resolution_clock::now();
@@ -92,25 +92,26 @@ int main(int argc, char** argv) {
     fs::path tempDir = fs::temp_directory_path();
 
     auto config = avo::OverlayConfig(
-        (dir / "iPhone 11 - vertical.png").string(),
-        416,428,
-        1870,3572,
-        2286,4000);
+        (dir / "Apple iPhone 11 White.png").string(),
+        75, 71,
+        903, 1863,
+        979, 1934);
+    // Original tests were made on apples iPhone 11 template
+    // with resolution 2286 x 4000, and was padded with 0.16x0.08
     auto output = avo::OutputConfig(
         tempDir / "sfbenchoutputS0SK28SHF73OZP74.mp4",
-        60.0,
-        2286,
-        4000);
+        60.0, 2286, 4000,
+        0.16, 0.08);
     avo::Overlayer overlayer(config);
 
     cv::ocl::setUseOpenCL(true);
     checkOpenCL();
     std::cout<< "GPU" << std::endl;
-    benchmark<cv::UMat>(overlayer, output);
+    benchmark<cv::UMat>(overlayer, output, 1000);
 
     cv::ocl::setUseOpenCL(false);
     std::cout<< "CPU" << std::endl;
-    benchmark<cv::Mat>(overlayer, output);
+    benchmark<cv::Mat>(overlayer, output, 1000);
 
     return 0;
 }
