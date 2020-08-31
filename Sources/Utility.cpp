@@ -2,12 +2,12 @@
 // Created by Kacper Rączy on 27/08/2020.
 //
 
-#include "Parsing.hpp"
+#include "Utility.hpp"
+#include "Debug.hpp"
 #include <regex>
 #include <filesystem>
 #include <algorithm>
 #include <fstream>
-#include "Utility.hpp"
 
 namespace fs = std::filesystem;
 

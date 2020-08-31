@@ -1,4 +1,5 @@
-[Intel Core i7 4770HQ + Iris Pro 5200]
+# 1.1.0
+[Intel Core i7 4770HQ + Iris Pro 5200 + macOS 10.15]
 - GPU_init:  -
 - CPU_init:  -
 - GPU_frame: 83 ms

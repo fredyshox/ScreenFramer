@@ -4,7 +4,7 @@
 
 #include "OverlayTask.hpp"
 #include "Overlayer.hpp"
-#include "Utility.hpp"
+#include "Debug.hpp"
 #include <opencv2/imgproc.hpp>
 
 #ifdef MACOS_APP
