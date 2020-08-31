@@ -52,15 +52,15 @@ To overlay screen recording at `INPUTPATH`, and save output at `OUTPUTPATH` run:
 
 Available options:
 
-* `-t, --template arg` Device template in format `device[_color]` (default - `auto`). Look at available templates below.
+* `-t, --template arg` Device template in format `device_color` (default - `auto`). Look at available templates below.
 * `-w, --width arg` Output video width (default - template width)
 * `-h, --height arg` Output video height (default - template height)
-* `-p, --padding arg` Device frame padding (default - `0.2:`). Look padding syntax below.
+* `-p, --padding arg` Device frame padding (default - `0.16:`). Look at padding syntax below.
 * `-c, --color arg` Background color in hex (default - #000000)
 
 ### Padding syntax 
 
-Padding can be specified using fraction of output dimensions. Available options:
+Padding can be specified using fraction of template dimensions. Available options:
 
 * `X.Y` uniform padding of `X.Y`
 * `X.Y:` horizontal padding of `X.Y`, and automatic vertical padding to be equal
