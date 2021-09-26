@@ -22,7 +22,7 @@
             "space-gray": "Apple iPad Air 2 Space Gray.png"
         },
         "left": 111,
-        "res_height": 2496,
+        "res_height": 2495,
         "res_width": 1763,
         "right": 1647,
         "top": 224
@@ -41,19 +41,21 @@
         "right": 1741,
         "top": 192
     },
-    "ipadmini4": {
-        "bottom": 2326,
+    "ipadair4": {
+        "bottom": 2474,
         "default_image": "space-gray",
         "images": {
-            "gold": "Apple iPad Mini 4 Gold.png",
-            "silver": "Apple iPad Mini 4 Silver.png",
-            "space-gray": "Apple iPad Mini 4 Space Gray.png"
+            "green": "Apple iPad Air (2019) 2020 Green.png",
+            "rose-gold": "Apple iPad Air (2019) 2020 Rose Gold.png",
+            "silver": "Apple iPad Air (2019) 2020 Silver.png",
+            "sky-blue": "Apple iPad Air (2019) 2020 Sky Blue.png",
+            "space-gray": "Apple iPad Air (2019) 2020 Space Gray.png"
         },
-        "left": 96,
-        "res_height": 2604,
-        "res_width": 1728,
-        "right": 1632,
-        "top": 278
+        "left": 110,
+        "res_height": 2584,
+        "res_width": 1864,
+        "right": 1750,
+        "top": 114
     },
     "ipadmini5": {
         "bottom": 2327,
@@ -155,6 +157,68 @@
         "res_width": 1413,
         "right": 1328,
         "top": 78
+    },
+    "iphone12": {
+        "bottom": 2595,
+        "default_image": "black",
+        "images": {
+            "black": "Apple iPhone 12 Black.png",
+            "blue": "Apple iPhone 12 Blue.png",
+            "green": "Apple iPhone 12 Green.png",
+            "red": "Apple iPhone 12 Red.png",
+            "white": "Apple iPhone 12 White.png"
+        },
+        "left": 72,
+        "res_height": 2658,
+        "res_width": 1314,
+        "right": 1242,
+        "top": 63
+    },
+    "iphone12mini": {
+        "bottom": 2399,
+        "default_image": "black",
+        "images": {
+            "black": "Apple iPhone 12 Mini Black.png",
+            "blue": "Apple iPhone 12 Mini Blue.png",
+            "green": "Apple iPhone 12 Mini Green.png",
+            "red": "Apple iPhone 12 Mini Red.png",
+            "white": "Apple iPhone 12 Mini White.png"
+        },
+        "left": 70,
+        "res_height": 2458,
+        "res_width": 1220,
+        "right": 1150,
+        "top": 59
+    },
+    "iphone12pro": {
+        "bottom": 2595,
+        "default_image": "silver",
+        "images": {
+            "gold": "Apple iPhone 12 Pro Gold.png",
+            "graphite": "Apple iPhone 12 Pro Graphite.png",
+            "pacific-blue": "Apple iPhone 12 Pro Pacific Blue.png",
+            "silver": "Apple iPhone 12 Pro Silver.png"
+        },
+        "left": 72,
+        "res_height": 2658,
+        "res_width": 1314,
+        "right": 1242,
+        "top": 63
+    },
+    "iphone12promax": {
+        "bottom": 2840,
+        "default_image": "silver",
+        "images": {
+            "gold": "Apple iPhone 12 Pro Max Gold.png",
+            "graphite": "Apple iPhone 12 Pro Max Graphite.png",
+            "pacific-blue": "Apple iPhone 12 Pro Max Pacific Blue.png",
+            "silver": "Apple iPhone 12 Pro Max Silver.png"
+        },
+        "left": 74,
+        "res_height": 2902,
+        "res_width": 1432,
+        "right": 1358,
+        "top": 62
     },
     "iphone5c": {
         "bottom": 1375,
