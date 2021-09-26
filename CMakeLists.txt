@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(ScreenFramer VERSION 1.2.1)
+project(ScreenFramer VERSION 1.2.2)
 
 # dependencies
 find_package(OpenCV 4 REQUIRED)
