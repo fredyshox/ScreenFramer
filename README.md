@@ -70,6 +70,14 @@ Padding can be specified using fraction of template dimensions. Available option
 
 ##### iPhones
 
+* iPhone 12: `iphone12`
+  * Colors: `black`, `blue`, `green`, `red`, `white`
+* iPhone 12 Mini: `iphone12mini`
+  * Colors: `black`, `blue`, `green`, `red`, `white`
+* iPhone 12 Pro: `iphone12pro`
+  * Colors: `gold`, `graphite`, `pacific-blue`, `silver`
+* iPhone 12 Pro: `iphone12promax`
+  * Colors: `gold`, `graphite`, `pacific-blue`, `silver`
 * iPhone 11: `iphone11` 
   * Colors:  `black`,  `green`,  `purple`,  `red`,  `white`,  `yellow`
 * iPhone 11 Pro: `iphone11pro`
@@ -113,13 +121,13 @@ Padding can be specified using fraction of template dimensions. Available option
   * Colors: `silver`, `space-gray`
 * iPad Pro 12.9 (3/4 gen): `ipadpro129`
   * Colors: `silver`, `space-gray`
+* iPad Air 4 (2020): `ipadair4`
+  * Colors: `green`, `rose-gold`, `silver`, `sky-blue`, `space-gray`
 * iPad Air 3 (2019): `ipadair3`
   * Colors: `gold`, `silver`, `space-gray`
 * iPad Air 2: `ipadair2`
   * Colors: `gold`, `silver`, `space-gray`
 * iPad Mini 5 (2019): `ipadmini5`
-  * Colors: `gold`, `silver`, `space-gray`
-* iPad Mini 4: `ipadmini4`
   * Colors: `gold`, `silver`, `space-gray`
 
 ##### Apple Watch

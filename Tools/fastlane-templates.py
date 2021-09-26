@@ -28,8 +28,8 @@ def main():
     repo_dir = path.join(resource_dir, "frameit-frames-gh-pages")
 
     print("Downloading frameit frames...")
-    if os.system(f"wget -q --show-progress -O \"{zip_path}\" \"{FRAMEIT_URL}\" && unzip -d \"{resource_dir}\" \"{zip_path}\"") != 0:
-        exit(2)
+    status_code = os.system(f"wget -q --show-progress -O \"{zip_path}\" \"{FRAMEIT_URL}\" && unzip -d \"{resource_dir}\" \"{zip_path}\"")
+    print(f"Status code: {status_code}")
 
     # path to latest frames
     frameit_dir = path.join(repo_dir, "latest")

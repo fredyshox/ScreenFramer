@@ -11,6 +11,8 @@ DEVICE_COLORS = [
   "Rose Gold",
   "Jet Black",
   "Matte Black",
+  "Pacific Blue",
+  "Sky Blue",
   "Clearly White",
   "Just Black",
   "Not Pink",
@@ -50,7 +52,8 @@ DEVICE_COLORS = [
   "Green",
   "Gray",
   "Coral",
-  "Purple"
+  "Purple",
+  "Graphite",
 ]
 
 # every apple device right now is available in one of these colors
@@ -68,14 +71,17 @@ DEFAULT_COLORS = [
 
 # renaming, prefer generation over years
 IPAD_AIR_YEAR = "2019"
+NEW_IPAD_AIR_YEAR = "2020"
 IPAD_MINI_YEAR = "2019"
 IPAD_AIR_GEN = "3"
+NEW_IPAD_AIR_GEN = "4"
 IPAD_MINI_GEN = "5"
 IPAD_PRO_12_9_GEN = "3"
 RENAME_SCHEME = {
     "iPad Pro (11 inch)": "iPad Pro 11",
     f"iPad Pro (12.9 inch) ({IPAD_PRO_12_9_GEN}rd generation)": "iPad Pro 12.9",
     f"iPad Air ({IPAD_AIR_YEAR})": f"iPad Air {IPAD_AIR_GEN}",
+    f"iPad Air ({IPAD_AIR_YEAR}) {NEW_IPAD_AIR_YEAR}": f"iPad Air {NEW_IPAD_AIR_GEN}",
     f"iPad Mini ({IPAD_MINI_YEAR})": f"iPad Mini {IPAD_MINI_GEN}",
     f"iPodTouch Portrait": "iPod Touch"
 }
